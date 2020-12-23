@@ -1,18 +1,15 @@
 package testPageLib.loginPageTest;
 
 import base.Base;
-import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pageLib.loginPage.LoginPage;
 
 public class LoginPageTest extends Base {
 
-    static LoginPage loginPage;
+    public LoginPageTest() { super(); }
 
-    public static void getInitElements() {
-        loginPage = PageFactory.initElements(driver, LoginPage.class);
-    }
+    LoginPage loginPage;
 
     /**
      * Test Case 1:
@@ -24,8 +21,10 @@ public class LoginPageTest extends Base {
      */
     @Test
     public void testDoLogin() throws Exception {
-        getInitElements();
 
+        loginPage = new LoginPage();
+
+        loginPage.navigateToLoginPage();
         loginPage.sendKeysToEmailAddressTextBox();
         loginPage.sendKeysToPasswordTextBox();
         loginPage.clickLoginSubmitButton();
