@@ -4,17 +4,15 @@ import base.Base;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.util.concurrent.TimeUnit;
+import pageLib.homePage.HomePage;
 
 import static pageLib.loginPage.LoginPageLocators.*;
 
 public class LoginPage extends Base {
-
-    WebDriverWait driverWait = new WebDriverWait(driver, 3);
 
     @FindBy (css = textBoxEmailAddress)
     public WebElement inputEmailAddress;
@@ -25,12 +23,21 @@ public class LoginPage extends Base {
     @FindBy (css = buttonSubmit)
     public WebElement buttonLoginSubmit;
 
+    public LoginPage() {
+        PageFactory.initElements(driver, this);
+    }
+
+    public void navigateToLoginPage() {
+        HomePage homePage = new HomePage();
+        homePage.clickLoginButton();
+    }
+
     public void sendKeysToEmailAddressTextBox() {
-        inputEmailAddress.sendKeys("ameikh645@gmail.com");
+        inputEmailAddress.sendKeys(properties.getProperty("username"));
     }
 
     public void sendKeysToPasswordTextBox() {
-        inputPassword.sendKeys("Tripleh1!");
+        inputPassword.sendKeys(properties.getProperty("password"));
     }
 
     public void clickLoginSubmitButton() throws InterruptedException {
