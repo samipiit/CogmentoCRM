@@ -19,21 +19,20 @@ public class ExtentManager {
             File resultDirectory = new File(outputDirectory.getParentFile(),"html");
 
             Date date = new Date();
-            String fileName = "TestReport_"+date.toString().replace(" ", "_")+".html";
+            String fileName = date.toString().replace(" ", "_") + ".html";
 
-            extent = new ExtentReports(System.getProperty("user.dir") + "/src/main/reporting/testReports" + fileName);
-            Reporter.log("Extent Report Directory"+ resultDirectory, true);
+            extent = new ExtentReports(System.getProperty("user.dir") + "/src/main/java/reporting/testReports/" + fileName);
+            Reporter.log("Extent Report Directory" + resultDirectory, true);
             extent.addSystemInfo("Host Name", "Maximus").addSystemInfo("Environment","QA")
                     .addSystemInfo("User Name", "Sami Sheikh");
 
-            extent.loadConfig(new File(System.getProperty("user.dir")+ "/report-config.xml"));
+            extent.loadConfig(new File(System.getProperty("user.dir")+ "/src/main/resources/reporting/report-config.xml"));
         }
         return extent;
     }
 
     public static void setOutputDirectory(ITestContext context){
         ExtentManager.context = context;
-
     }
 
 }

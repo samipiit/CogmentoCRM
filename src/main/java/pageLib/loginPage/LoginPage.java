@@ -1,24 +1,19 @@
 package pageLib.loginPage;
 
 import base.Base;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pageLib.homePage.HomePage;
-
-import java.util.concurrent.TimeUnit;
 
 import static pageLib.loginPage.LoginPageLocators.*;
 
 public class LoginPage extends Base {
 
-    public LoginPage() {
-        super();
-        PageFactory.initElements(driver, this);
-    }
-
-
-    // Page Factory
     @FindBy (css = textBoxEmailAddress)
     public WebElement inputEmailAddress;
 
@@ -27,6 +22,10 @@ public class LoginPage extends Base {
 
     @FindBy (css = buttonSubmit)
     public WebElement buttonLoginSubmit;
+
+    public LoginPage() {
+        PageFactory.initElements(driver, this);
+    }
 
     public void navigateToLoginPage() {
         HomePage homePage = new HomePage();
@@ -41,7 +40,7 @@ public class LoginPage extends Base {
         inputPassword.sendKeys(properties.getProperty("password"));
     }
 
-    public void clickLoginSubmitButton() {
+    public void clickLoginSubmitButton() throws InterruptedException {
         buttonLoginSubmit.click();
     }
 }
