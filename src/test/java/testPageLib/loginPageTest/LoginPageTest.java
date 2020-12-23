@@ -10,10 +10,6 @@ public class LoginPageTest extends Base {
 
     static LoginPage loginPage;
 
-    public static void getInitElements() {
-        loginPage = PageFactory.initElements(driver, LoginPage.class);
-    }
-
     /**
      * Test Case 1:
      *  1. Given user is at https://ui.cogmento.com
@@ -23,9 +19,11 @@ public class LoginPageTest extends Base {
      *  5. Then user should be navigated to profile homepage
      */
     @Test
-    public void testDoLogin() throws Exception {
-        getInitElements();
+    public void testDoLogin() {
 
+        loginPage = new LoginPage();
+
+        loginPage.navigateToLoginPage();
         loginPage.sendKeysToEmailAddressTextBox();
         loginPage.sendKeysToPasswordTextBox();
         loginPage.clickLoginSubmitButton();

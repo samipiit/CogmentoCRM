@@ -19,11 +19,11 @@ public class ExtentManager {
             File resultDirectory = new File(outputDirectory.getParentFile(),"html");
 
             Date date = new Date();
-            String fileName = "TestReport_"+date.toString().replace(" ", "_").replace(":", "-")+".html";
+            String fileName = "TestReport_"+date.toString().replace(" ", "_")+".html";
 
-            extent = new ExtentReports(System.getProperty("user.dir")+"/lib/Reports/"+fileName,false);
+            extent = new ExtentReports(System.getProperty("user.dir") + "/src/main/reporting/testReports" + fileName);
             Reporter.log("Extent Report Directory"+ resultDirectory, true);
-            extent.addSystemInfo("Host Name", "TEAM 3").addSystemInfo("Environment","QA")
+            extent.addSystemInfo("Host Name", "Maximus").addSystemInfo("Environment","QA")
                     .addSystemInfo("User Name", "Sami Sheikh");
 
             extent.loadConfig(new File(System.getProperty("user.dir")+ "/report-config.xml"));
