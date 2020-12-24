@@ -2,14 +2,25 @@ package testPageLib.loginPageTest;
 
 import base.Base;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pageLib.loginPage.LoginPage;
+
+import java.lang.reflect.Method;
 
 public class LoginPageTest extends Base {
 
     public LoginPageTest() { super(); }
 
     LoginPage loginPage;
+
+    @BeforeMethod
+    @Override
+    public void beforeEachMethodInit() {
+        super.beforeEachMethodInit();
+        loginPage = new LoginPage();
+        loginPage.navigateToLoginPage();
+    }
 
     /**
      * Test Case 1:
@@ -20,17 +31,10 @@ public class LoginPageTest extends Base {
      *  5. Then user should be navigated to profile homepage
      */
     @Test
-    public void testDoLogin() throws Exception {
-
-        loginPage = new LoginPage();
-
-        loginPage.navigateToLoginPage();
-        loginPage.sendKeysToEmailAddressTextBox();
-        loginPage.sendKeysToPasswordTextBox();
-        loginPage.clickLoginSubmitButton();
+    public void testDoLogin() {
+        loginPage.doLogin(properties.getProperty("username"), properties.getProperty("password"));
 
         Assert.assertEquals(driver.getTitle(), "Cogmento CRM", "***PAGE TITLE DOES NOT MATCH***");
-
     }
 
 
