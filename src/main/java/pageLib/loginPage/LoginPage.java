@@ -28,19 +28,24 @@ public class LoginPage extends Base {
     }
 
     public void navigateToLoginPage() {
-        HomePage homePage = new HomePage();
-        homePage.clickLoginButton();
+        new HomePage().clickLoginButton();
     }
 
-    public void sendKeysToEmailAddressTextBox() {
-        inputEmailAddress.sendKeys(properties.getProperty("username"));
+    public void sendKeysToEmailAddressTextBox(String emailAddress) {
+        inputEmailAddress.sendKeys(emailAddress);
     }
 
-    public void sendKeysToPasswordTextBox() {
-        inputPassword.sendKeys(properties.getProperty("password"));
+    public void sendKeysToPasswordTextBox(String password) {
+        inputPassword.sendKeys(password);
     }
 
-    public void clickLoginSubmitButton() throws InterruptedException {
+    public void clickLoginSubmitButton() {
         buttonLoginSubmit.click();
+    }
+
+    public void doLogin(String emailAddress, String password) {
+        sendKeysToEmailAddressTextBox(emailAddress);
+        sendKeysToPasswordTextBox(password);
+        clickLoginSubmitButton();
     }
 }

@@ -2,20 +2,17 @@ package base;
 
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.LogStatus;
-import commonUtils.DataReader;
+import testUtils.DataReader;
+import testUtils.WebEventListener;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.ui.*;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
@@ -25,17 +22,15 @@ import reporting.ExtentTestManager;
 
 import java.io.*;
 import java.lang.reflect.Method;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class Base {
 
     public static WebDriver driver;
+    public static EventFiringWebDriver eventFiringWebDriver;
     public static Properties properties;
-    static DataReader dataReader;
+    public static DataReader dataReader;
     static ExtentReports extent;
 
     public Base() {
@@ -56,7 +51,7 @@ public class Base {
         extent = ExtentManager.getInstance();
     }
 
-    public WebDriver initDriver() {
+    private static void initDriver() {
 
         String browserName = properties.getProperty("browser");
 
@@ -82,17 +77,24 @@ public class Base {
             WebDriverManager.chromedriver().setup();
             driver = new ChromeDriver(options);
         }
-        return driver;
+
+        eventFiringWebDriver = new EventFiringWebDriver(driver);
+        eventFiringWebDriver.register(new WebEventListener());
+
+        driver = eventFiringWebDriver;
     }
 
     @BeforeMethod
-    public void beforeEachMethod(Method method) {
+    public void beforeEachMethodExtent(Method method) {
         String className = method.getDeclaringClass().getSimpleName();
         String methodName = method.getName().toLowerCase();
 
         ExtentTestManager.startTest(methodName);
         ExtentTestManager.getTest().assignCategory(className);
+    }
 
+    @BeforeMethod
+    public void beforeEachMethodInit() {
         initDriver();
 
         driver.manage().window().maximize();
@@ -102,14 +104,47 @@ public class Base {
 
         String url = properties.getProperty("url");
         driver.get(url);
-
     }
 
+    /**
+     * Method to return stack trace as String
+     * @param t
+     * @return String
+     */
     protected String getStackTrace(Throwable t) {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         t.printStackTrace(pw);
         return sw.toString();
+    }
+
+    /**
+     * Method to capture screenshot & store in .png file in directory
+     * @param driver
+     * @param testName
+     */
+    private static void captureScreenshot(WebDriver driver, String testName) {
+        Date date = new Date();
+        String fileName = testName + " - " + date.toString().replace(" ", "_") + ".png";
+        File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+
+        try {
+            FileUtils.copyFile(screenshot, new File(System.getProperty("user.dir") + "/src/main/java/reporting/screenshots/" + fileName));
+            System.out.println("SCREENSHOT TAKEN");
+        } catch (Exception e) {
+            System.out.println("ERROR TAKING SCREENSHOT: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Method to get current time
+     * @param millis
+     * @return
+     */
+    private Date getTime(long millis) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(millis);
+        return calendar.getTime();
     }
 
     @AfterMethod (alwaysRun = true)
@@ -142,25 +177,6 @@ public class Base {
     @AfterSuite
     public void generateReport() {
         extent.close();
-    }
-
-    public static void captureScreenshot(WebDriver driver, String testName) {
-        Date date = new Date();
-        String fileName = testName + " - " + date.toString().replace(" ", "_") + ".png";
-        File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-
-        try {
-            FileUtils.copyFile(screenshot, new File(System.getProperty("user.dir") + "/src/main/java/reporting/screenshots/" + fileName));
-            System.out.println("SCREENSHOT TAKEN");
-        } catch (Exception e) {
-            System.out.println("ERROR TAKING SCREENSHOT: " + e.getMessage());
-        }
-    }
-
-    private Date getTime(long millis) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(millis);
-        return calendar.getTime();
     }
 
 }
