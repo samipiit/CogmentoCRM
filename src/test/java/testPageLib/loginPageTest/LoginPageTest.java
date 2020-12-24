@@ -30,7 +30,7 @@ public class LoginPageTest extends Base {
      *  4. User clicks Login Submit button
      *  5. Then user should be navigated to profile homepage
      */
-    @Test
+    @Test (groups = "Sanity")
     public void testDoLogin() {
         loginPage.doLogin(properties.getProperty("username"), properties.getProperty("password"));
 

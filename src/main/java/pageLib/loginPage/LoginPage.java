@@ -27,6 +27,9 @@ public class LoginPage extends Base {
         PageFactory.initElements(driver, this);
     }
 
+
+
+
     public void navigateToLoginPage() {
         new HomePage().clickLoginButton();
     }

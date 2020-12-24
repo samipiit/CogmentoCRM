@@ -2,11 +2,13 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 
 <suite name="Cogmento CRM">
+
     <test name="Master Test" >
         <classes>
             <class name="testPageLib.homePageTest.HomePageTest"/>
-<!--            <class name="testPageLib.loginPageTest.LoginPageTest"/>-->
-<!--            <class name="testPageLib.aboutPageTest.AboutPageTest"/>-->
+            <class name="testPageLib.loginPageTest.LoginPageTest"/>
+            <class name="testPageLib.aboutPageTest.AboutPageTest"/>
         </classes>
     </test>
+
 </suite>
