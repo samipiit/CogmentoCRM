@@ -4,7 +4,6 @@ import com.relevantcodes.extentreports.ExtentReports;
 import org.testng.ITestContext;
 import org.testng.Reporter;
 
-
 import java.io.File;
 import java.util.Date;
 
@@ -19,9 +18,9 @@ public class ExtentManager {
             File resultDirectory = new File(outputDirectory.getParentFile(),"html");
 
             Date date = new Date();
-            String fileName = date.toString().replace(" ", "_") + ".html";
+            String fileName = "TestReport_"+date.toString().replace(" ", "_").replace(":", "-")+".html";
 
-            extent = new ExtentReports(System.getProperty("user.dir") + "/src/main/java/reporting/testReports/" + fileName);
+            extent = new ExtentReports(System.getProperty("user.dir")+"/src/main/java/reporting/testReports/" + fileName,true);
             Reporter.log("Extent Report Directory" + resultDirectory, true);
             extent.addSystemInfo("Host Name", "Maximus").addSystemInfo("Environment","QA")
                     .addSystemInfo("User Name", "Sami Sheikh");
@@ -34,5 +33,4 @@ public class ExtentManager {
     public static void setOutputDirectory(ITestContext context){
         ExtentManager.context = context;
     }
-
 }

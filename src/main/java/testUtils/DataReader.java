@@ -178,7 +178,7 @@ public class DataReader {
      * XSSF READER & WRITER METHODS (String)
      */
 
-    // RETURNS ARRAY OF STRING ARRAYS (XSSF)
+    // RETURNS ARRAY OF STRING ARRAYS (XSSF) - Excel sheet should have header row (this method will skip reading header row)
     public String[][] fileReaderArrayStringArraysXSSF(String path, String sheetName) throws IOException {
         String[][] data;
         File file = new File(path);
@@ -188,10 +188,10 @@ public class DataReader {
         xssfSheet = xssfWorkbook.getSheet(sheetName);
         numberOfRows = xssfSheet.getLastRowNum();
         numberOfCol = xssfSheet.getRow(0).getLastCellNum();
-        data = new String[numberOfRows + 1][numberOfCol + 1];
+        data = new String[numberOfRows][numberOfCol];
 
         for (int i = 0; i < data.length; i++) {
-            xssfRows = xssfSheet.getRow(i);
+            xssfRows = xssfSheet.getRow(i+1);
             for (int j = 0; j < numberOfCol; j++) {
                 xssfCell = xssfRows.getCell(j);
                 String cellData = getCellValueXSSF(xssfCell);

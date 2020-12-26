@@ -2,9 +2,9 @@ package testPageLib.loginPageTest;
 
 import base.Base;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import pageLib.loginPage.LoginPage;
+import testUtils.DataReader;
 
 import java.lang.reflect.Method;
 
@@ -14,10 +14,11 @@ public class LoginPageTest extends Base {
 
     LoginPage loginPage;
 
+    @Parameters ({"browser"})
     @BeforeMethod
     @Override
-    public void beforeEachMethodInit() {
-        super.beforeEachMethodInit();
+    public void beforeEachMethodInit(String browser) {
+        super.beforeEachMethodInit(browser);
         loginPage = new LoginPage();
         loginPage.navigateToLoginPage();
     }
@@ -30,12 +31,20 @@ public class LoginPageTest extends Base {
      *  4. User clicks Login Submit button
      *  5. Then user should be navigated to profile homepage
      */
-    @Test (groups = "Sanity")
-    public void testDoLogin() {
-        loginPage.doLogin(properties.getProperty("username"), properties.getProperty("password"));
+    @Test (dataProvider = "getLoginTestData")
+    public void testDoLogin(String username, String password) {
+        loginPage.doLogin(username, password);
 
         Assert.assertEquals(driver.getTitle(), "Cogmento CRM", "***PAGE TITLE DOES NOT MATCH***");
     }
 
+    @DataProvider
+    public Object[][] getLoginTestData() throws Exception {
+        dataReader = new DataReader();
+
+        String path = System.getProperty("user.dir") + "/src/main/java/testData/TestData1.xlsx";
+
+        return dataReader.fileReaderArrayStringArraysXSSF(path, "Login");
+    }
 
 }

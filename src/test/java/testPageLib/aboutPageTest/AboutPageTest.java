@@ -3,6 +3,7 @@ package testPageLib.aboutPageTest;
 import base.Base;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import pageLib.aboutPage.AboutPage;
 import pageLib.homePage.HomePage;
@@ -13,10 +14,11 @@ public class AboutPageTest extends Base {
 
     AboutPage aboutPage;
 
+    @Parameters ({"browser"})
     @BeforeMethod
     @Override
-    public void beforeEachMethodInit() {
-        super.beforeEachMethodInit();
+    public void beforeEachMethodInit(String browser) {
+        super.beforeEachMethodInit(browser);
         aboutPage = new AboutPage();
         aboutPage.navigateToAboutPage();
     }

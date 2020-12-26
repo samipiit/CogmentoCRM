@@ -2,6 +2,10 @@ package base;
 
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.LogStatus;
+import org.testng.ITestContext;
+import org.testng.ITestResult;
+import reporting.ExtentManager;
+import reporting.ExtentTestManager;
 import testUtils.DataReader;
 import testUtils.WebEventListener;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -13,11 +17,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
-import org.testng.ITestContext;
-import org.testng.ITestResult;
 import org.testng.annotations.*;
-import reporting.ExtentManager;
-import reporting.ExtentTestManager;
 
 
 import java.io.*;
@@ -31,7 +31,9 @@ public class Base {
     public static EventFiringWebDriver eventFiringWebDriver;
     public static Properties properties;
     public static DataReader dataReader;
-    static ExtentReports extent;
+
+    public static ExtentReports extent;
+
 
     public Base() {
         try {
@@ -45,33 +47,25 @@ public class Base {
         }
     }
 
-    @BeforeSuite
-    public void extentSetup(ITestContext context) {
-        ExtentManager.setOutputDirectory(context);
-        extent = ExtentManager.getInstance();
-    }
+    private static void initDriver(String browser) {
 
-    private static void initDriver() {
-
-        String browserName = properties.getProperty("browser");
-
-        if (browserName.equalsIgnoreCase("Chrome")) {
+        if (browser.equalsIgnoreCase("Chrome")) {
             WebDriverManager.chromedriver().setup();
             driver = new ChromeDriver();
 
-        } else if (browserName.equalsIgnoreCase("Firefox")) {
+        } else if (browser.equalsIgnoreCase("Firefox")) {
             WebDriverManager.firefoxdriver().setup();
             driver = new FirefoxDriver();
 
-        } else if (browserName.equalsIgnoreCase("IE")) {
+        } else if (browser.equalsIgnoreCase("IE")) {
             WebDriverManager.iedriver().setup();
             driver = new InternetExplorerDriver();
 
-        } else if (browserName.equalsIgnoreCase("Edge")) {
+        } else if (browser.equalsIgnoreCase("Edge")) {
             WebDriverManager.edgedriver().setup();
             driver = new EdgeDriver();
 
-        } else if (browserName.equalsIgnoreCase("chrome-options")) {
+        } else if (browser.equalsIgnoreCase("chrome-options")) {
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--disable-notifications");
             WebDriverManager.chromedriver().setup();
@@ -84,18 +78,25 @@ public class Base {
         driver = eventFiringWebDriver;
     }
 
+    @BeforeSuite
+    public void beforeSuiteExtentSetup(ITestContext context) {
+        ExtentManager.setOutputDirectory(context);
+        extent = ExtentManager.getInstance();
+    }
+
     @BeforeMethod
-    public void beforeEachMethodExtent(Method method) {
+    public void beforeEachMethodExtentInit(Method method) {
         String className = method.getDeclaringClass().getSimpleName();
-        String methodName = method.getName().toLowerCase();
+        String methodName = method.getName();
 
         ExtentTestManager.startTest(methodName);
         ExtentTestManager.getTest().assignCategory(className);
     }
 
+    @Parameters ({"browser"})
     @BeforeMethod
-    public void beforeEachMethodInit() {
-        initDriver();
+    public void beforeEachMethodInit(String browser) {
+        initDriver(browser);
 
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
@@ -106,49 +107,9 @@ public class Base {
         driver.get(url);
     }
 
-    /**
-     * Method to return stack trace as String
-     * @param t
-     * @return String
-     */
-    protected String getStackTrace(Throwable t) {
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        t.printStackTrace(pw);
-        return sw.toString();
-    }
-
-    /**
-     * Method to capture screenshot & store in .png file in directory
-     * @param driver
-     * @param testName
-     */
-    private static void captureScreenshot(WebDriver driver, String testName) {
-        Date date = new Date();
-        String fileName = testName + " - " + date.toString().replace(" ", "_") + ".png";
-        File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-
-        try {
-            FileUtils.copyFile(screenshot, new File(System.getProperty("user.dir") + "/src/main/java/reporting/screenshots/" + fileName));
-            System.out.println("SCREENSHOT TAKEN");
-        } catch (Exception e) {
-            System.out.println("ERROR TAKING SCREENSHOT: " + e.getMessage());
-        }
-    }
-
-    /**
-     * Method to get current time
-     * @param millis
-     * @return
-     */
-    private Date getTime(long millis) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(millis);
-        return calendar.getTime();
-    }
-
     @AfterMethod (alwaysRun = true)
     public void afterEachTestMethod(ITestResult result) {
+
         ExtentTestManager.getTest().getTest().setStartedTime(getTime(result.getStartMillis()));
         ExtentTestManager.getTest().getTest().setEndedTime(getTime(result.getEndMillis()));
 
@@ -156,27 +117,64 @@ public class Base {
             ExtentTestManager.getTest().assignCategory(group);
         }
 
-        if (result.getStatus() == 1) {
-            ExtentTestManager.getTest().log(LogStatus.PASS, "Test Passed");
-        } else if (result.getStatus() == 2) {
-            ExtentTestManager.getTest().log(LogStatus.FAIL, getStackTrace(result.getThrowable()));
-        } else if (result.getStatus() == 3) {
-            ExtentTestManager.getTest().log(LogStatus.SKIP, "Test Skipped");
+        if (result.getStatus() == ITestResult.FAILURE) {
+            ExtentTestManager.getTest().log(LogStatus.FAIL, "TEST CASE FAILED: " + result.getName());
+            ExtentTestManager.getTest().log(LogStatus.FAIL, result.getThrowable());
+            captureScreenshot(driver, result.getName());
+        } else if (result.getStatus() == ITestResult.SKIP) {
+            ExtentTestManager.getTest().log(LogStatus.SKIP, "TEST CASE SKIPPED: " + result.getName());
+        } else if (result.getStatus() == ITestResult.SUCCESS) {
+            ExtentTestManager.getTest().log(LogStatus.PASS, "TEST CASE PASSED: " + result.getName());
         }
-
         ExtentTestManager.endTest();
         extent.flush();
-
-        if (result.getStatus() == ITestResult.FAILURE) {
-            captureScreenshot(driver, result.getName());
-        }
 
         driver.quit();
     }
 
     @AfterSuite
-    public void generateReport() {
+    private void afterSuiteCloseExtent() {
         extent.close();
+    }
+
+    private Date getTime(long millis) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(millis);
+        return calendar.getTime();
+    }
+
+    /**
+     * Method to capture screenshot & store in .png file in specified directory
+     * @param driver
+     * @param testName
+     */
+    private static void captureScreenshot(WebDriver driver, String testName) {
+        Date date = new Date();
+        String fileName = testName + " // " + date.toString().replace(" ", "_") + ".png";
+        File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+
+        try {
+            FileUtils.copyFile(screenshot, new File(System.getProperty("user.dir") + "/test-output/screenshots/" + fileName));
+            System.out.println("SCREENSHOT TAKEN");
+        } catch (Exception e) {
+            System.out.println("ERROR TAKING SCREENSHOT: " + e.getMessage());
+        }
+    }
+
+
+    /**
+     * UTILITY METHODS
+     */
+
+    public String getWebElementText(WebElement element) {
+        return element.getText();
+    }
+
+    public int getNumberOfLinks(By by) {
+
+        List<WebElement> webElementsList = driver.findElements(by);
+        return webElementsList.size();
+
     }
 
 }
