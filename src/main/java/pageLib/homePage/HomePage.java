@@ -8,8 +8,6 @@ import org.openqa.selenium.support.PageFactory;
 import pageLib.aboutPage.AboutPage;
 import pageLib.loginPage.LoginPage;
 
-import java.util.List;
-
 import static pageLib.homePage.HomePageLocators.*;
 
 public class HomePage extends Base {
@@ -37,6 +35,16 @@ public class HomePage extends Base {
 
     @FindBy (css = webElementTextContainerMainBody3)
     public WebElement textContainerMainBody3;
+
+    @FindBy (css = webElementImageContainerMain1)
+    public WebElement imageContainerMain1;
+
+    @FindBy (css = webElementImageContainerMain2)
+    public WebElement imageContainerMain2;
+
+    @FindBy (css = webElementImageContainerMain3)
+    public WebElement imageContainerMain3;
+
 
     public HomePage() {
         PageFactory.initElements(driver, this);

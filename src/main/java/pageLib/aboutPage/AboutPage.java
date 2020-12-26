@@ -11,10 +11,6 @@ public class AboutPage extends Base {
         PageFactory.initElements(driver, this);
     }
 
-    public void navigateToAboutPage() {
-        new HomePage().clickAboutButton();
-    }
-
 
 
 

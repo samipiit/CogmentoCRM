@@ -3,10 +3,10 @@ package testPageLib.loginPageTest;
 import base.Base;
 import org.testng.Assert;
 import org.testng.annotations.*;
+import pageLib.homePage.HomePage;
+import pageLib.loginHomepage.LoginHomepage;
 import pageLib.loginPage.LoginPage;
 import testUtils.DataReader;
-
-import java.lang.reflect.Method;
 
 public class LoginPageTest extends Base {
 
@@ -17,10 +17,9 @@ public class LoginPageTest extends Base {
     @Parameters ({"browser"})
     @BeforeMethod
     @Override
-    public void beforeEachMethodInit(String browser) {
+    public void beforeEachMethodInit(@Optional ("chrome") String browser) {
         super.beforeEachMethodInit(browser);
-        loginPage = new LoginPage();
-        loginPage.navigateToLoginPage();
+        loginPage = new HomePage().clickLoginButton();
     }
 
     /**
@@ -31,20 +30,27 @@ public class LoginPageTest extends Base {
      *  4. User clicks Login Submit button
      *  5. Then user should be navigated to profile homepage
      */
-    @Test (dataProvider = "getLoginTestData")
-    public void testDoLogin(String username, String password) {
+    @Test (dataProvider = "getInvalidLoginTestData")
+    public void testDoInvalidLogin(String username, String password) {
         loginPage.doLogin(username, password);
 
-        Assert.assertEquals(driver.getTitle(), "Cogmento CRM", "***PAGE TITLE DOES NOT MATCH***");
+        Assert.assertTrue(isElementPresent(loginPage.invalidLoginMessage), "INVALID LOGIN MESSAGE IS NOT DISPLAYED OR USER WAS ALLOWED TO LOGIN");
     }
 
     @DataProvider
-    public Object[][] getLoginTestData() throws Exception {
+    public Object[][] getInvalidLoginTestData() throws Exception {
         dataReader = new DataReader();
 
         String path = System.getProperty("user.dir") + "/src/main/java/testData/TestData1.xlsx";
 
-        return dataReader.fileReaderArrayStringArraysXSSF(path, "Login");
+        return dataReader.fileReaderArrayStringArraysXSSF(path, "InvalidLogin");
+    }
+
+    @Test
+    public void testDoValidLogin() {
+        LoginHomepage loginHomepage = loginPage.doLogin(properties.getProperty("username"), properties.getProperty("password"));
+
+        Assert.assertEquals(getTextFromElement(loginHomepage.textUserNameDisplay), "Sami Sheikh", "USER NAME DOES NOT MATCH");
     }
 
 }

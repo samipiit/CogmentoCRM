@@ -1,39 +1,31 @@
 package pageLib.loginPage;
 
 import base.Base;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import pageLib.homePage.HomePage;
-import testUtils.DataReader;
+import pageLib.loginHomepage.LoginHomepage;
 
 import static pageLib.loginPage.LoginPageLocators.*;
 
 public class LoginPage extends Base {
 
-    @FindBy (css = textBoxEmailAddress)
+    @FindBy (css = webElementTextBoxEmailAddress)
     public WebElement inputEmailAddress;
 
-    @FindBy (css = textBoxPassword)
+    @FindBy (css = webElementTextBoxPassword)
     public WebElement inputPassword;
 
-    @FindBy (css = buttonSubmit)
+    @FindBy (css = webELementButtonSubmit)
     public WebElement buttonLoginSubmit;
+
+    @FindBy (css = webElementInvalidLoginMessage)
+    public WebElement invalidLoginMessage;
 
     public LoginPage() {
         PageFactory.initElements(driver, this);
     }
 
-
-
-
-    public void navigateToLoginPage() {
-        new HomePage().clickLoginButton();
-    }
 
     public void sendKeysToEmailAddressTextBox(String emailAddress) {
         inputEmailAddress.sendKeys(emailAddress);
@@ -47,9 +39,11 @@ public class LoginPage extends Base {
         buttonLoginSubmit.click();
     }
 
-    public void doLogin(String emailAddress, String password) {
+    public LoginHomepage doLogin(String emailAddress, String password) {
         sendKeysToEmailAddressTextBox(emailAddress);
         sendKeysToPasswordTextBox(password);
         clickLoginSubmitButton();
+
+        return new LoginHomepage();
     }
 }

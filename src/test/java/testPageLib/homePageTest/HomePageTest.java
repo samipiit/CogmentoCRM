@@ -1,10 +1,9 @@
 package testPageLib.homePageTest;
 
 import base.Base;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import pageLib.homePage.HomePage;
@@ -18,7 +17,7 @@ public class HomePageTest extends Base {
     @Parameters ({"browser"})
     @BeforeMethod
     @Override
-    public void beforeEachMethodInit(String browser) {
+    public void beforeEachMethodInit(@Optional ("chrome") String browser) {
         super.beforeEachMethodInit(browser);
         homePage = new HomePage();
     }
@@ -32,13 +31,28 @@ public class HomePageTest extends Base {
         Assert.assertEquals(actualURL, "https://ui.cogmento.com/", "***URL DOES NOT MATCH***");
     }
 
-    @Test (priority = 2, enabled = false)
+    @Test (enabled = false)
     public void testClickOnAbout(){
         homePage.clickAboutButton();
 
         String actualURL = driver.getCurrentUrl();
         System.out.println("ACTUAL URL: " + actualURL);
         Assert.assertEquals(actualURL, "https://cogmento.com/about.html", "***URL DOES NOT MATCH***");
+    }
+
+    @Test
+    public void testMainContainerImage1() {
+        Assert.assertTrue(isElementPresent(homePage.imageContainerMain1), "IMAGE IS NOT DISPLAYED");
+    }
+
+    @Test
+    public void testMainContainerImage2() {
+        Assert.assertTrue(isElementPresent(homePage.imageContainerMain2), "IMAGE IS NOT DISPLAYED");
+    }
+
+    @Test
+    public void testMainContainerImage3() {
+        Assert.assertTrue(isElementPresent(homePage.imageContainerMain3), "IMAGE IS NOT DISPLAYED");
     }
 
     @Test (enabled = false)
@@ -64,7 +78,7 @@ public class HomePageTest extends Base {
         Assert.assertEquals(actualText, "Market", "TITLE DOES NOT MATCH");
     }
 
-    @Test
+    @Test (enabled = false)
     public void testMainContainerBodyText1() {
         String actualText = getWebElementText(homePage.textContainerMainBody1).trim();
         System.out.println("ACTUAL TEXT: " + actualText);
@@ -73,7 +87,7 @@ public class HomePageTest extends Base {
                 "Grow your customer base, find new ones, and close more quickly from anywhere.", "BODY TEXT DOES NOT MATCH");
     }
 
-    @Test
+    @Test (enabled = false)
     public void testMainContainerBodyText2() {
         String actualText = getWebElementText(homePage.textContainerMainBody2).trim();
         System.out.println("ACTUAL TEXT: " + actualText);
@@ -82,7 +96,7 @@ public class HomePageTest extends Base {
                 "Personalize customer care, close cases faster, and deliver support everywhere.", "BODY TEXT DOES NOT MATCH");
     }
 
-    @Test
+    @Test (enabled = false)
     public void testMainContainerBodyText3() {
         String actualText = getWebElementText(homePage.textContainerMainBody3).trim();
         System.out.println("ACTUAL TEXT: " + actualText);
@@ -91,7 +105,7 @@ public class HomePageTest extends Base {
                 "nurture relationships. Personalize your email marketing, engage with mobile and influential social network marketing.", "BODY TEXT DOES NOT MATCH");
     }
 
-    @Test
+    @Test (enabled = false)
     public void testNumberOfHeaderLinks() {
         int actualNumOfLinks = homePage.getNumOfHeaderLinks();
         System.out.println("NUMBER OF LINKS: " + actualNumOfLinks);
