@@ -5,12 +5,15 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import pageLib.aboutPage.AboutPage;
-import pageLib.loginPage.LoginPage;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import pageLib.homePage.aboutPage.AboutPage;
+import pageLib.homePage.loginPage.LoginPage;
 
 import static pageLib.homePage.HomePageLocators.*;
 
 public class HomePage extends Base {
+
+    public static final String URL = properties.getProperty("url");
 
     @FindBy (css = webElementButtonLogin)
     public WebElement buttonLogin;
@@ -53,12 +56,15 @@ public class HomePage extends Base {
     public LoginPage clickLoginButton() {
         buttonLogin.click();
 
+        waitUntilURLIs(LoginPage.URL);
+
         return new LoginPage();
     }
 
     public AboutPage clickAboutButton() {
         buttonAbout.click();
 
+        waitUntilURLIs(AboutPage.URL);
         return new AboutPage();
     }
 

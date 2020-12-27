@@ -5,17 +5,24 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import pageLib.calendarPage.CalendarPage;
-import pageLib.callsPage.CallsPage;
-import pageLib.campaignsPage.CampaignsPage;
-import pageLib.casesPage.CasesPage;
-import pageLib.companiesPage.CompaniesPage;
-import pageLib.contactsPage.ContactsPage;
-import pageLib.dealsPage.DealsPage;
-import pageLib.documentsPage.DocumentsPage;
-import pageLib.emailPage.EmailPage;
-import pageLib.formsPage.FormsPage;
-import pageLib.tasksPage.TasksPage;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import pageLib.loginHomepage.calendarPage.CalendarPage;
+import pageLib.loginHomepage.callsPage.CallsPage;
+import pageLib.loginHomepage.campaignsPage.CampaignsPage;
+import pageLib.loginHomepage.casesPage.CasesPage;
+import pageLib.loginHomepage.companiesPage.CompaniesPage;
+import pageLib.loginHomepage.contactsPage.ContactsPage;
+import pageLib.loginHomepage.dealsPage.DealsPage;
+import pageLib.loginHomepage.documentsPage.DocumentsPage;
+import pageLib.loginHomepage.emailPage.EmailPage;
+import pageLib.loginHomepage.formsPage.FormsPage;
+import pageLib.loginHomepage.importPage.ImportPage;
+import pageLib.homePage.loginPage.LoginPage;
+import pageLib.loginHomepage.productsPage.ProductsPage;
+import pageLib.loginHomepage.rubbishPage.RubbishPage;
+import pageLib.loginHomepage.settingsPage.SettingsPage;
+import pageLib.loginHomepage.tasksPage.TasksPage;
+import pageLib.loginHomepage.toolsPage.ToolsPage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +33,27 @@ public class LoginHomepage extends Base {
 
     @FindBy (css = webElementTextUserNameDisplay)
     public WebElement textUserNameDisplay;
+
+    @FindBy (css = webElementButtonRubbishPage)
+    public WebElement buttonRubbishPage;
+
+    @FindBy (css = webElementButtonDropdownSettings)
+    public WebElement buttonDropdownSettings;
+
+    @FindBy (xpath = webElementLinkSettingsDropdownSettings)
+    public WebElement linkSettingsDropdownSettings;
+
+    @FindBy (xpath = webElementLinkSettingsDropdownProducts)
+    public WebElement linkSettingsDropdownProducts;
+
+    @FindBy (xpath = webElementLinkSettingsDropdownImport)
+    public WebElement linksSettingsDropdownImport;
+
+    @FindBy (xpath = webElementLinkSettingsDropdownTools)
+    public WebElement linksSettingsDropdownTools;
+
+    @FindBy (xpath = webElementLinkSettingsDropdownLogOut)
+    public WebElement linksSettingsDropdownLogOut;
 
     @FindBy (css = webElementPanelLeftSideBar)
     public WebElement panelLeftSideBar;
@@ -75,9 +103,96 @@ public class LoginHomepage extends Base {
     @FindBy (xpath = webElementTextTitleDiv3)
     public WebElement textTitleDiv3;
 
+    @FindBy (xpath = webElementTextTitleDiv4)
+    public WebElement textTitleDiv4;
+
+    @FindBy (xpath = webElementTextTitleDiv5)
+    public WebElement textTitleDiv5;
+
+    @FindBy (xpath = webElementTextTitleDiv6)
+    public WebElement textTitleDiv6;
+
     public LoginHomepage() {
         PageFactory.initElements(driver, this);
     }
+
+    public void clickOnExpandSettingsDropdown() {
+        clickOnElement(buttonDropdownSettings);
+    }
+
+    public SettingsPage clickLinkSettingsSettingsDropdown() {
+        clickOnExpandSettingsDropdown();
+        clickOnElement(linkSettingsDropdownSettings);
+
+        SettingsPage settingsPage = new SettingsPage();
+
+        waitUntilURLIs(SettingsPage.URL);
+        waitUntilVisible(settingsPage.textHeaderAccountSettings);
+
+        return settingsPage;
+    }
+
+    public ProductsPage clickLinkProductsSettingsDropdown() {
+        clickOnExpandSettingsDropdown();
+        clickOnElement(linkSettingsDropdownProducts);
+
+        ProductsPage productsPage = new ProductsPage();
+
+        waitUntilURLIs(ProductsPage.URL);
+        waitUntilVisible(productsPage.textHeaderProducts);
+
+        return productsPage;
+    }
+
+    public ImportPage clickLinkImportSettingsDropdown() {
+        clickOnExpandSettingsDropdown();
+        clickOnElement(linksSettingsDropdownImport);
+
+        ImportPage importPage = new ImportPage();
+
+        waitUntilURLIs(ImportPage.URL);
+        waitUntilVisible(importPage.textHeaderImport);
+
+        return importPage;
+    }
+
+    public ToolsPage clickLinkToolsSettingsDropdown() {
+        clickOnExpandSettingsDropdown();
+        clickOnElement(linksSettingsDropdownTools);
+
+        ToolsPage toolsPage = new ToolsPage();
+
+        waitUntilURLIs(ToolsPage.URL);
+        waitUntilVisible(toolsPage.textHeaderTools);
+
+        return toolsPage;
+    }
+
+    public LoginPage doLogout() {
+        clickOnExpandSettingsDropdown();
+        clickOnElement(linksSettingsDropdownLogOut);
+
+        LoginPage loginPage = new LoginPage();
+
+        waitUntilURLIs(LoginPage.URL);
+        waitUntilClickable(loginPage.buttonLoginSubmit);
+
+        return loginPage;
+    }
+
+    public RubbishPage navigateToRubbishPage() {
+        clickOnElement(buttonRubbishPage);
+
+        waitUntilURLIs(RubbishPage.URL);
+
+        RubbishPage rubbishPage = new RubbishPage();
+
+        waitUntilVisible(rubbishPage.textRubbishBinHeader);
+
+        return rubbishPage;
+    }
+
+
 
     public int getNumOfLinksLeftSideBar() {
         return getNumberOfLinks(By.cssSelector(webElementsLinksLeftSideBar));
@@ -94,92 +209,142 @@ public class LoginHomepage extends Base {
         return linksList;
     }
 
+    public LoginHomepage navigateToLoginHomepage() {
+        clickOnElement(linkLeftSideBarHome);
+
+        return new LoginHomepage();
+    }
+
     public CalendarPage navigateToCalendarPage() {
         clickOnElement(linkLeftSideBarCalendar);
 
-        waitUntilURLIs("https://ui.cogmento.com/calendar");
+        waitUntilURLIs(CalendarPage.URL);
 
-        return new CalendarPage();
+        CalendarPage calendarPage = new CalendarPage();
+
+        waitUntilClickable(calendarPage.buttonNewEvent);
+
+        return calendarPage;
     }
 
     public ContactsPage navigateToContactsPage() {
         clickOnElement(linkLeftSideBarContacts);
 
-        waitUntilURLIs("https://ui.cogmento.com/contacts");
+        waitUntilURLIs(ContactsPage.URL);
 
-        return new ContactsPage();
+        ContactsPage contactsPage = new ContactsPage();
+
+        waitUntilVisible(contactsPage.textContactsHeader);
+
+        return contactsPage;
     }
 
     public CompaniesPage navigateToCompaniesPage() {
         clickOnElement(linkLeftSideBarCompanies);
 
-        waitUntilURLIs("https://ui.cogmento.com/companies");
+        waitUntilURLIs(CompaniesPage.URL);
 
-        return new CompaniesPage();
+        CompaniesPage companiesPage = new CompaniesPage();
+
+        waitUntilVisible(companiesPage.textCompaniesHeader);
+
+        return companiesPage;
     }
 
     public DealsPage navigateToDealsPage() {
         clickOnElement(linkLeftSideBarDeals);
 
-        waitUntilURLIs("https://ui.cogmento.com/deals");
+        waitUntilURLIs(DealsPage.URL);
 
-        return new DealsPage();
+        DealsPage dealsPage = new DealsPage();
+
+        waitUntilVisible(dealsPage.textDealsHeader);
+
+        return dealsPage;
     }
 
     public TasksPage navigateToTasksPage() {
         clickOnElement(linkLeftSideBarTasks);
 
-        waitUntilURLIs("https://ui.cogmento.com/tasks");
+        waitUntilURLIs(TasksPage.URL);
 
-        return new TasksPage();
+        TasksPage tasksPage = new TasksPage();
+
+        waitUntilVisible(tasksPage.textTasksHeader);
+
+        return tasksPage;
     }
 
     public CasesPage navigateToCasesPage() {
         clickOnElement(linkLeftSideBarCases);
 
-        waitUntilURLIs("https://ui.cogmento.com/cases");
+        waitUntilURLIs(CasesPage.URL);
 
-        return new CasesPage();
+        CasesPage casesPage = new CasesPage();
+
+        waitUntilVisible(casesPage.textCasesHeader);
+
+        return casesPage;
     }
 
     public CallsPage navigateToCallsPage() {
         clickOnElement(linkLeftSideBarCalls);
 
-        waitUntilURLIs("https://ui.cogmento.com/calls");
+        waitUntilURLIs(CallsPage.URL);
 
-        return new CallsPage();
+        CallsPage callsPage = new CallsPage();
+
+        waitUntilVisible(callsPage.textCallsHeader);
+
+        return callsPage;
     }
 
     public DocumentsPage navigateToDocumentsPage() {
         clickOnElement(linkLeftSideBarDocuments);
 
-        waitUntilURLIs("https://ui.cogmento.com/documents");
+        waitUntilURLIs(DocumentsPage.URL);
 
-        return new DocumentsPage();
+        DocumentsPage documentsPage = new DocumentsPage();
+
+        waitUntilVisible(documentsPage.textDocumentsHeader);
+
+        return documentsPage;
     }
 
     public EmailPage navigateToEmailPage() {
         clickOnElement(linkLeftSideBarEmail);
 
-        waitUntilURLIs("https://ui.cogmento.com/email");
+        waitUntilURLIs(EmailPage.URL);
 
-        return new EmailPage();
+        EmailPage emailPage = new EmailPage();
+
+        waitUntilVisible(emailPage.textEmailHeader);
+
+        return emailPage;
     }
 
     public CampaignsPage navigateToCampaignsPage() {
         clickOnElement(linkLeftSideBarCampaigns);
 
-        waitUntilURLIs("https://ui.cogmento.com/campaigns");
+        waitUntilURLIs(CampaignsPage.URL);
 
-        return new CampaignsPage();
+        CampaignsPage campaignsPage = new CampaignsPage();
+
+        waitUntilVisible(campaignsPage.textCampaignsHeader);
+
+        return campaignsPage;
     }
 
     public FormsPage navigateToFormsPage() {
         clickOnElement(linkLeftSideBarForms);
 
-        waitUntilURLIs("https://ui.cogmento.com/forms");
+        waitUntilURLIs(FormsPage.URL);
 
-        return new FormsPage();
+        FormsPage formsPage = new FormsPage();
+
+        waitUntilVisible(formsPage.textFormsHeader);
+
+        return formsPage;
     }
 
 }

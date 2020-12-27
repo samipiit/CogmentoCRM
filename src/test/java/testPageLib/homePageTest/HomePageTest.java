@@ -57,14 +57,14 @@ public class HomePageTest extends Base {
 
     @Test (enabled = false)
     public void testMainContainerTitleText1() {
-        String actualText = getWebElementText(homePage.textContainerMainTitle1);
+        String actualText = getTextFromElement(homePage.textContainerMainTitle1);
         System.out.println("ACTUAL TEXT: " + actualText);
         Assert.assertEquals(actualText, "Sell", "TITLE DOES NOT MATCH");
     }
 
     @Test (enabled = false)
     public void testMainContainerTitleText2() {
-        String actualText = getWebElementText(homePage.textContainerMainTitle2);
+        String actualText = getTextFromElement(homePage.textContainerMainTitle2);
         System.out.println("ACTUAL TEXT: " + actualText);
 
         Assert.assertEquals(actualText, "Service", "TITLE DOES NOT MATCH");
@@ -72,7 +72,7 @@ public class HomePageTest extends Base {
 
     @Test (enabled = false)
     public void testMainContainerTitleText3() {
-        String actualText = getWebElementText(homePage.textContainerMainTitle3);
+        String actualText = getTextFromElement(homePage.textContainerMainTitle3);
         System.out.println("ACTUAL TEXT: " + actualText);
 
         Assert.assertEquals(actualText, "Market", "TITLE DOES NOT MATCH");
@@ -80,7 +80,7 @@ public class HomePageTest extends Base {
 
     @Test (enabled = false)
     public void testMainContainerBodyText1() {
-        String actualText = getWebElementText(homePage.textContainerMainBody1).trim();
+        String actualText = getTextFromElement(homePage.textContainerMainBody1).trim();
         System.out.println("ACTUAL TEXT: " + actualText);
 
         Assert.assertEquals(actualText, "Convert leads into accounts faster with the world's #1 CRM solution. " +
@@ -89,7 +89,7 @@ public class HomePageTest extends Base {
 
     @Test (enabled = false)
     public void testMainContainerBodyText2() {
-        String actualText = getWebElementText(homePage.textContainerMainBody2).trim();
+        String actualText = getTextFromElement(homePage.textContainerMainBody2).trim();
         System.out.println("ACTUAL TEXT: " + actualText);
 
         Assert.assertEquals(actualText, "Support every customer on every channel everywhere with CRM. " +
@@ -98,7 +98,7 @@ public class HomePageTest extends Base {
 
     @Test (enabled = false)
     public void testMainContainerBodyText3() {
-        String actualText = getWebElementText(homePage.textContainerMainBody3).trim();
+        String actualText = getTextFromElement(homePage.textContainerMainBody3).trim();
         System.out.println("ACTUAL TEXT: " + actualText);
 
         Assert.assertEquals(actualText, "With Cogmento CRM, you can reach out and engage your clients and " +

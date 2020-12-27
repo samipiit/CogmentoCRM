@@ -26,7 +26,6 @@ public class DataReader {
     FileOutputStream fio = null;
     int numberOfRows, numberOfCol, rowNum;
 
-
     /**
      * XSSF READER & WRITER METHODS (String)
      */

@@ -4,7 +4,6 @@ import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.LogStatus;
 import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
@@ -36,13 +35,10 @@ public class Base {
     public static WebDriverWait webDriverWait;
     public static Properties properties;
     public static DataReader dataReader;
-
     public static ExtentReports extent;
-
 
     public Base() {
 
-        dataReader = new DataReader();
 
         try {
             properties = new Properties();
@@ -52,6 +48,12 @@ public class Base {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        try {
+            dataReader = new DataReader();
+        } catch (Exception e) {
+            e.getMessage();
         }
     }
 
@@ -102,6 +104,7 @@ public class Base {
 
         System.out.println("\n***" + methodName + "***\n");
     }
+
 
     @Parameters ({"browser"})
     @BeforeMethod
@@ -170,7 +173,6 @@ public class Base {
         } catch (Exception e) {
             System.out.println("ERROR TAKING SCREENSHOT: " + e.getMessage());
         }
-
     }
 
 
@@ -178,17 +180,80 @@ public class Base {
      * UTILITY METHODS
      */
 
-    public String getWebElementText(WebElement element) {
-        return element.getText();
-    }
+    public void clickOnElement(WebElement element) {
+        try {
+            waitUntilClickable(element);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-    public static void clickOnElement(WebElement element) {
         try {
             element.click();
         } catch (Exception e) {
-            e.getMessage();
             e.printStackTrace();
         }
+    }
+
+    public void sendKeysInputTextBox(WebElement element, String keysToInput) {
+        try {
+            element.sendKeys(keysToInput);
+        } catch (Exception e) {
+            e.getMessage();
+        }
+    }
+
+    public void clearInputTextBox(WebElement element) {
+        try {
+            element.clear();
+        } catch (Exception e) {
+            e.getMessage();
+        }
+    }
+
+    public String getCSSValueColor(WebElement element) {
+        return element.getCssValue("color");
+    }
+
+    public String getTextFromElement(WebElement element) {
+
+        String text = "";
+
+        try {
+            text = element.getText();
+        } catch (Exception e) {
+            try {
+                e.printStackTrace();
+                text = element.getAttribute("innerHTML");
+            } catch (Exception e1){
+                e1.printStackTrace();
+            }
+        }
+
+        return text;
+    }
+
+    public String getTextFromElementUsingAttribute(WebElement element, String attribute) {
+        String text = "";
+
+        try {
+            text = element.getAttribute(attribute);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return text;
+    }
+
+    public List<String> getListOfStringsTextFromElement(By locator) {
+
+        List<WebElement> webElementsList = driver.findElements(locator);
+        List<String> webElementsTextList = new ArrayList<>();
+
+        for (WebElement element : webElementsList) {
+            webElementsTextList.add(element.getText());
+        }
+
+        return webElementsTextList;
     }
 
     public int getNumberOfLinks(By by) {
@@ -196,52 +261,143 @@ public class Base {
         return webElementsList.size();
     }
 
-    public static List<WebElement> getListOfElements(By by) {
-        List<WebElement> list = driver.findElements(by);
+    public List<WebElement> getListOfElements(By by) {
+        List<WebElement> list = new ArrayList<>();
+
+        try {
+            list = driver.findElements(by);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return list;
     }
 
-    public String getTextFromElement(WebElement element) {
-        return element.getText();
-    }
+    public int getSizeListOfElements(By by) {
+        List<WebElement> list = new ArrayList<>();
 
-    public boolean isElementPresent(WebElement element) {
-        boolean flag = false;
         try {
-            if (element.isDisplayed()
-                    || element.isEnabled())
-                flag = true;
-        } catch (NoSuchElementException e) {
-            flag = false;
-        } catch (StaleElementReferenceException e) {
-            flag = false;
+             list = driver.findElements(by);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return flag;
+        return list.size();
     }
 
-    public String getCSSValueColor(WebElement element) {
-        return element.getCssValue("color");
-    }
 
-    // Synchronization Methods
-    public void waitUntilClickAble(WebElement element) {
+
+
+
+    /**
+     * SYNCHRONIZATION METHODS
+     */
+
+    public void waitUntilURLIs(String url) {
         webDriverWait = new WebDriverWait(driver, 10);
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(element));
+
+        try {
+            webDriverWait.until(ExpectedConditions.urlToBe(url));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public void waitUntilVisible(By by) {
+    public void waitUntilClickable(WebElement element) {
         webDriverWait = new WebDriverWait(driver, 10);
-        webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(by));
+
+        try {
+            webDriverWait.until(ExpectedConditions.elementToBeClickable(element));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void waitUntilVisible(WebElement element) {
+        webDriverWait = new WebDriverWait(driver, 10);
+
+        try {
+            webDriverWait.until(ExpectedConditions.visibilityOf(element));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void waitUntilSelectable(WebElement element) {
         webDriverWait = new WebDriverWait(driver, 10);
-        webDriverWait.until(ExpectedConditions.elementToBeSelected(element));
+
+        try {
+            webDriverWait.until(ExpectedConditions.elementToBeSelected(element));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public void waitUntilURLIs(String url) {
+    public void waitUntilPresent(WebElement element) {
         webDriverWait = new WebDriverWait(driver, 10);
-        webDriverWait.until(ExpectedConditions.urlToBe(url));
+
+        try {
+            if (!isElementPresent(element)) {
+                waitUntilPresent(element);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean isElementPresent(WebElement element) {
+        boolean flag = false;
+
+        try {
+            if (element.isDisplayed() || element.isEnabled())
+                flag = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            flag = false;
+        }
+
+        return flag;
+    }
+
+
+    /**
+     * COMPARISON METHODS - Using excel read/write methods
+     */
+
+
+    // Gets specified attribute from List<WebElements> and compares against expected String array from user-specified Excel workbook/sheet
+    public static boolean compareWebElementListOfAttributesToExpectedStringArray(List<WebElement> webElementList, String attribute, String path, String sheetName) throws IOException {
+        String[] expectedList = dataReader.fileReaderStringXSSF(path, sheetName);
+
+        String[] actual = new String[webElementList.size()];
+
+        for (int j = 0; j<webElementList.size(); j++) {
+            actual[j] = webElementList.get(j)
+                    .getAttribute(attribute)
+                    .replaceAll("&amp;", "&")
+                    .replaceAll("’", "'")
+                    .replaceAll("<br>", "\n").trim();
+            actual[j].replaceAll("&amp;", "&")
+                    .replaceAll("’", "'")
+                    .replaceAll("<br>", "\n").trim();
+        }
+
+        int falseCount = 0;
+        boolean flag = false;
+        for (int i = 0; i < expectedList.length; i++) {
+            if (actual[i].equalsIgnoreCase(expectedList[i])) {
+                flag = true;
+                System.out.println("ACTUAL " + attribute.toUpperCase() + " " + (i + 1) + ": " + actual[i]);
+                System.out.println("EXPECTED " + attribute.toUpperCase() + " " + (i + 1) + ": " + expectedList[i] + "\n");
+            } else {
+                System.out.println("FAILED AT INDEX " + (i+1) + "\nEXPECTED " + attribute.toUpperCase() + ": " + expectedList[i] +
+                        "\nACTUAL " + attribute.toUpperCase() + ": " + actual[i] + "\n");
+                falseCount++;
+            }
+        }
+        if (falseCount > 0) {
+            flag = false;
+        }
+        return flag;
     }
 
 

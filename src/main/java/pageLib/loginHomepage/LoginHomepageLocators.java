@@ -6,6 +6,13 @@ public class LoginHomepageLocators {
      * HEADER
      */
     public static final String webElementTextUserNameDisplay = "span.user-display";
+    public static final String webElementButtonDropdownSettings = "div[role='listbox']";
+    public static final String webElementLinkSettingsDropdownSettings = "//div[@class='menu transition visible']/a[1]";
+    public static final String webElementLinkSettingsDropdownProducts = "//div[@class='menu transition visible']/a[2]";
+    public static final String webElementLinkSettingsDropdownImport = "//div[@class='menu transition visible']/a[3]";
+    public static final String webElementLinkSettingsDropdownTools = "//div[@class='menu transition visible']/a[4]";
+    public static final String webElementLinkSettingsDropdownLogOut = "//div[@class='menu transition visible']/a[5]";
+    public static final String webElementButtonRubbishPage = "button.ui.basic.button.item";
 
     /**
      * BODY
@@ -13,6 +20,9 @@ public class LoginHomepageLocators {
     public static final String webElementTextTitleDiv1 = "div.content.card-header > div";
     public static final String webElementTextTitleDiv2 = "//div[@class='ui stackable grid']/div[2]/div[2]//div[@class='header']";
     public static final String webElementTextTitleDiv3 = "//div[@class='ui stackable grid']/div[2]/div[3]//span[@class='header']";
+    public static final String webElementTextTitleDiv4 = "//div[@class='ui stackable grid']/div[3]//span[@class='header']";
+    public static final String webElementTextTitleDiv5 = "//div[@class='ui stackable grid']/div[3]/div[2]//div[@class='header']";
+    public static final String webElementTextTitleDiv6 = "//div[@class='ui stackable grid']/div[3]/div[3]//div[@class='header']";
 
     /**
      * LEFT SIDEBAR

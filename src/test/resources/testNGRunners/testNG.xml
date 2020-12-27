@@ -7,9 +7,21 @@
 
     <test name="Master Test" >
         <classes>
-            <class name="testPageLib.homePageTest.HomePageTest"/>
-<!--            <class name="testPageLib.loginPageTest.LoginPageTest"/>-->
-<!--            <class name="testPageLib.aboutPageTest.AboutPageTest"/>-->
+            <!--            <class name="testPageLib.homePageTest.HomePageTest"/>-->
+            <!--            <class name="testPageLib.homePageTest.aboutPageTest.AboutPageTest"/>-->
+<!--                        <class name="testPageLib.homePageTest.loginPageTest.LoginPageTest"/>-->
+                        <class name="testPageLib.loginHomepageTest.LoginHomepageTest"/>
+            <!--            <class name="testPageLib.loginHomepageTest.calendarPageTest.CalendarPageTest"/>-->
+            <!--            <class name="testPageLib.loginHomepageTest.callsPageTest.CallsPageTest"/>-->
+            <!--            <class name="testPageLib.loginHomepageTest.campaignsPageTest.CampaignsPageTest"/>-->
+            <!--            <class name="testPageLib.loginHomepageTest.casesPageTest.CasesPageTest"/>-->
+            <!--            <class name="testPageLib.loginHomepageTest.companiesPageTest.CompaniesPageTest"/>-->
+            <!--            <class name="testPageLib.loginHomepageTest.contactsPageTest.ContactsPageTest"/>-->
+            <!--            <class name="testPageLib.loginHomepageTest.dealsPageTest.DealsPageTest"/>-->
+            <!--            <class name="testPageLib.loginHomepageTest.documentsPageTest.DocumentsPageTest"/>-->
+            <!--            <class name="testPageLib.loginHomepageTest.emailPageTest.EmailPageTest"/>-->
+            <!--            <class name="testPageLib.loginHomepageTest.formsPageTest.FormsPageTest"/>-->
+            <!--            <class name="testPageLib.loginHomepageTest.tasksPageTest.TasksPageTest"/>-->
         </classes>
     </test>
 
