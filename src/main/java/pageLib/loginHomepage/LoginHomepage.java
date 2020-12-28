@@ -120,76 +120,51 @@ public class LoginHomepage extends Base {
         clickOnElement(buttonDropdownSettings);
     }
 
-    public SettingsPage clickLinkSettingsSettingsDropdown() {
+    public SettingsPage navigateToSettingsPage() {
         clickOnExpandSettingsDropdown();
+        waitUntilSelectable(linkSettingsDropdownSettings);
         clickOnElement(linkSettingsDropdownSettings);
 
-        SettingsPage settingsPage = new SettingsPage();
-
-        waitUntilURLIs(SettingsPage.URL);
-        waitUntilVisible(settingsPage.textHeaderAccountSettings);
-
-        return settingsPage;
+        return new SettingsPage();
     }
 
-    public ProductsPage clickLinkProductsSettingsDropdown() {
+    public ProductsPage navigateToProductsPage() {
         clickOnExpandSettingsDropdown();
+        waitUntilSelectable(linkSettingsDropdownProducts);
         clickOnElement(linkSettingsDropdownProducts);
 
-        ProductsPage productsPage = new ProductsPage();
-
-        waitUntilURLIs(ProductsPage.URL);
-        waitUntilVisible(productsPage.textHeaderProducts);
-
-        return productsPage;
+        return new ProductsPage();
     }
 
-    public ImportPage clickLinkImportSettingsDropdown() {
+    public ImportPage navigateToImportPage() {
         clickOnExpandSettingsDropdown();
+        waitUntilSelectable(linksSettingsDropdownImport);
         clickOnElement(linksSettingsDropdownImport);
 
-        ImportPage importPage = new ImportPage();
-
-        waitUntilURLIs(ImportPage.URL);
-        waitUntilVisible(importPage.textHeaderImport);
-
-        return importPage;
+        return new ImportPage();
     }
 
-    public ToolsPage clickLinkToolsSettingsDropdown() {
+    public ToolsPage navigateToToolsPage() {
         clickOnExpandSettingsDropdown();
+        waitUntilSelectable(linksSettingsDropdownTools);
         clickOnElement(linksSettingsDropdownTools);
 
-        ToolsPage toolsPage = new ToolsPage();
-
-        waitUntilURLIs(ToolsPage.URL);
-        waitUntilVisible(toolsPage.textHeaderTools);
-
-        return toolsPage;
+        return new ToolsPage();
     }
 
     public LoginPage doLogout() {
         clickOnExpandSettingsDropdown();
+        waitUntilSelectable(linksSettingsDropdownLogOut);
         clickOnElement(linksSettingsDropdownLogOut);
 
-        LoginPage loginPage = new LoginPage();
-
-        waitUntilURLIs(LoginPage.URL);
-        waitUntilClickable(loginPage.buttonLoginSubmit);
-
-        return loginPage;
+        return new LoginPage();
     }
 
     public RubbishPage navigateToRubbishPage() {
+        waitUntilSelectable(buttonRubbishPage);
         clickOnElement(buttonRubbishPage);
 
-        waitUntilURLIs(RubbishPage.URL);
-
-        RubbishPage rubbishPage = new RubbishPage();
-
-        waitUntilVisible(rubbishPage.textRubbishBinHeader);
-
-        return rubbishPage;
+        return new RubbishPage();
     }
 
 
@@ -210,141 +185,87 @@ public class LoginHomepage extends Base {
     }
 
     public LoginHomepage navigateToLoginHomepage() {
+        waitUntilSelectable(linkLeftSideBarHome);
         clickOnElement(linkLeftSideBarHome);
 
         return new LoginHomepage();
     }
 
     public CalendarPage navigateToCalendarPage() {
+        waitUntilSelectable(linkLeftSideBarCalendar);
         clickOnElement(linkLeftSideBarCalendar);
 
-        waitUntilURLIs(CalendarPage.URL);
-
-        CalendarPage calendarPage = new CalendarPage();
-
-        waitUntilClickable(calendarPage.buttonNewEvent);
-
-        return calendarPage;
+        return new CalendarPage();
     }
 
     public ContactsPage navigateToContactsPage() {
+        waitUntilSelectable(linkLeftSideBarContacts);
         clickOnElement(linkLeftSideBarContacts);
 
-        waitUntilURLIs(ContactsPage.URL);
-
-        ContactsPage contactsPage = new ContactsPage();
-
-        waitUntilVisible(contactsPage.textContactsHeader);
-
-        return contactsPage;
+        return new ContactsPage();
     }
 
     public CompaniesPage navigateToCompaniesPage() {
+        waitUntilSelectable(linkLeftSideBarCompanies);
         clickOnElement(linkLeftSideBarCompanies);
 
-        waitUntilURLIs(CompaniesPage.URL);
-
-        CompaniesPage companiesPage = new CompaniesPage();
-
-        waitUntilVisible(companiesPage.textCompaniesHeader);
-
-        return companiesPage;
+        return new CompaniesPage();
     }
 
     public DealsPage navigateToDealsPage() {
+        waitUntilSelectable(linkLeftSideBarDeals);
         clickOnElement(linkLeftSideBarDeals);
 
-        waitUntilURLIs(DealsPage.URL);
-
-        DealsPage dealsPage = new DealsPage();
-
-        waitUntilVisible(dealsPage.textDealsHeader);
-
-        return dealsPage;
+        return new DealsPage();
     }
 
     public TasksPage navigateToTasksPage() {
+        waitUntilSelectable(linkLeftSideBarTasks);
         clickOnElement(linkLeftSideBarTasks);
 
-        waitUntilURLIs(TasksPage.URL);
-
-        TasksPage tasksPage = new TasksPage();
-
-        waitUntilVisible(tasksPage.textTasksHeader);
-
-        return tasksPage;
+        return new TasksPage();
     }
 
     public CasesPage navigateToCasesPage() {
+        waitUntilSelectable(linkLeftSideBarCases);
         clickOnElement(linkLeftSideBarCases);
 
-        waitUntilURLIs(CasesPage.URL);
-
-        CasesPage casesPage = new CasesPage();
-
-        waitUntilVisible(casesPage.textCasesHeader);
-
-        return casesPage;
+        return new CasesPage();
     }
 
     public CallsPage navigateToCallsPage() {
+        waitUntilSelectable(linkLeftSideBarCalls);
         clickOnElement(linkLeftSideBarCalls);
 
-        waitUntilURLIs(CallsPage.URL);
-
-        CallsPage callsPage = new CallsPage();
-
-        waitUntilVisible(callsPage.textCallsHeader);
-
-        return callsPage;
+        return new CallsPage();
     }
 
     public DocumentsPage navigateToDocumentsPage() {
+        waitUntilSelectable(linkLeftSideBarDocuments);
         clickOnElement(linkLeftSideBarDocuments);
 
-        waitUntilURLIs(DocumentsPage.URL);
-
-        DocumentsPage documentsPage = new DocumentsPage();
-
-        waitUntilVisible(documentsPage.textDocumentsHeader);
-
-        return documentsPage;
+        return new DocumentsPage();
     }
 
     public EmailPage navigateToEmailPage() {
+        waitUntilSelectable(linkLeftSideBarEmail);
         clickOnElement(linkLeftSideBarEmail);
 
-        waitUntilURLIs(EmailPage.URL);
-
-        EmailPage emailPage = new EmailPage();
-
-        waitUntilVisible(emailPage.textEmailHeader);
-
-        return emailPage;
+        return new EmailPage();
     }
 
     public CampaignsPage navigateToCampaignsPage() {
+        waitUntilSelectable(linkLeftSideBarCampaigns);
         clickOnElement(linkLeftSideBarCampaigns);
 
-        waitUntilURLIs(CampaignsPage.URL);
-
-        CampaignsPage campaignsPage = new CampaignsPage();
-
-        waitUntilVisible(campaignsPage.textCampaignsHeader);
-
-        return campaignsPage;
+        return new CampaignsPage();
     }
 
     public FormsPage navigateToFormsPage() {
+        waitUntilSelectable(linkLeftSideBarForms);
         clickOnElement(linkLeftSideBarForms);
 
-        waitUntilURLIs(FormsPage.URL);
-
-        FormsPage formsPage = new FormsPage();
-
-        waitUntilVisible(formsPage.textFormsHeader);
-
-        return formsPage;
+        return new FormsPage();
     }
 
 }

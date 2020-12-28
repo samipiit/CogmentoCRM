@@ -20,13 +20,33 @@ import pageLib.loginHomepage.formsPage.FormsPage;
 import pageLib.homePage.HomePage;
 import pageLib.loginHomepage.LoginHomepage;
 import pageLib.homePage.loginPage.LoginPage;
+import pageLib.loginHomepage.importPage.ImportPage;
+import pageLib.loginHomepage.productsPage.ProductsPage;
+import pageLib.loginHomepage.settingsPage.SettingsPage;
 import pageLib.loginHomepage.tasksPage.TasksPage;
+import pageLib.loginHomepage.toolsPage.ToolsPage;
 
 import java.util.List;
 
 public class LoginHomepageTest extends Base {
 
     LoginHomepage loginHomepage;
+    LoginPage loginPage;
+    SettingsPage settingsPage;
+    ProductsPage productsPage;
+    ImportPage importPage;
+    ToolsPage toolsPage;
+    CalendarPage calendarPage;
+    ContactsPage contactsPage;
+    CompaniesPage companiesPage;
+    DealsPage dealsPage;
+    TasksPage tasksPage;
+    CasesPage casesPage;
+    CallsPage callsPage;
+    DocumentsPage documentsPage;
+    EmailPage emailPage;
+    CampaignsPage campaignsPage;
+    FormsPage formsPage;
 
     public LoginHomepageTest() {
         super();
@@ -38,8 +58,10 @@ public class LoginHomepageTest extends Base {
     public void beforeEachMethodInit(@Optional("chrome") String browser) {
         super.beforeEachMethodInit(browser);
         loginHomepage = new HomePage()
-                .clickLoginButton()
+                .navigateToLoginPage()
                 .doLogin(properties.getProperty("username"), properties.getProperty("password"));
+
+        waitUntilPresent(loginHomepage.textUserNameDisplay);
     }
 
     @Test (enabled = true)
@@ -53,39 +75,50 @@ public class LoginHomepageTest extends Base {
 
     @Test (enabled = true)
     public void testNavigationToSettingsPage() {
-        Assert.assertEquals(loginHomepage
-                .clickLinkSettingsSettingsDropdown()
-                .textHeaderAccountSettings.getText().trim(),
+        settingsPage = loginHomepage.navigateToSettingsPage();
+        waitUntilURLIs(SettingsPage.URL);
+        waitUntilPresent(settingsPage.textHeaderAccountSettings);
+
+        Assert.assertEquals(getTextFromElement(settingsPage.textHeaderAccountSettings).trim(),
                 "Account Settings\nManage your preferences", "HEADER TEXT DOES NOT MATCH/NOT FOUND --- DID NOT NAVIGATE TO SETTINGS PAGE");
     }
 
     @Test (enabled = true)
     public void testNavigationToProductsPage() {
-        Assert.assertEquals(loginHomepage
-                .clickLinkProductsSettingsDropdown()
-                .textHeaderProducts.getText(), "Products", "HEADER TEXT DOES NOT MATCH/NOT FOUND --- DID NOT NAVIGATE TO PRODUCTS PAGE");
+        productsPage = loginHomepage.navigateToProductsPage();
+        waitUntilURLIs(ProductsPage.URL);
+        waitUntilPresent(productsPage.textHeaderProducts);
+
+        Assert.assertEquals(getTextFromElement(productsPage.textHeaderProducts),
+                "Products", "HEADER TEXT DOES NOT MATCH/NOT FOUND --- DID NOT NAVIGATE TO PRODUCTS PAGE");
     }
 
     @Test (enabled = true)
     public void testNavigationToImportPage() {
-        Assert.assertEquals(loginHomepage
-                .clickLinkImportSettingsDropdown()
-                .textHeaderImport.getText(), "Import", "HEADER TEXT DOES NOT MATCH/NOT FOUND --- DID NOT NAVIGATE TO IMPORT PAGE");
+        importPage = loginHomepage.navigateToImportPage();
+        waitUntilURLIs(ImportPage.URL);
+        waitUntilPresent(importPage.textHeaderImport);
+
+        Assert.assertEquals(getTextFromElement(importPage.textHeaderImport),
+                "Import", "HEADER TEXT DOES NOT MATCH/NOT FOUND --- DID NOT NAVIGATE TO IMPORT PAGE");
     }
 
     @Test (enabled = true)
     public void testNavigationToToolsPage() {
-        Assert.assertEquals(loginHomepage
-                .clickLinkToolsSettingsDropdown()
-                .textHeaderTools.getText().trim(),
+        toolsPage = loginHomepage.navigateToToolsPage();
+        waitUntilURLIs(ToolsPage.URL);
+        waitUntilPresent(toolsPage.textHeaderTools);
+
+        Assert.assertEquals(getTextFromElement(toolsPage.textHeaderTools).trim(),
                 "Tools\nTools to manage your data", "HEADER TEXT DOES NOT MATCH/NOT FOUND --- DID NOT NAVIGATE TO TOOLS PAGE");
     }
 
     @Test (enabled = true)
     public void testDoLogout() {
-        Assert.assertTrue(loginHomepage
-                .doLogout()
-                .isElementPresent(new LoginPage().inputEmailAddress), "UNABLE TO LOGOUT");
+        loginPage = loginHomepage.doLogout();
+        waitUntilURLIs(LoginPage.URL);
+
+        Assert.assertTrue(isElementPresent(loginPage.inputEmailAddress), "UNABLE TO LOGOUT");
     }
 
     @Test (enabled = true)
@@ -149,80 +182,90 @@ public class LoginHomepageTest extends Base {
     }
 
 
-
     @Test (enabled = true)
     public void testNavigationToCalendarPage() {
-        CalendarPage calendarPage = loginHomepage.navigateToCalendarPage();
+        calendarPage = loginHomepage.navigateToCalendarPage();
+        waitUntilURLIs(CalendarPage.URL);
 
         Assert.assertEquals(getTextFromElement(calendarPage.textCalendarHeader), "Calendar", "HEADER TEXT DOES NOT MATCH/NOT FOUND --- DID NOT NAVIGATE TO CALENDAR PAGE");
     }
 
     @Test (enabled = true)
     public void testNavigationToContactsPage() {
-        ContactsPage contactsPage = loginHomepage.navigateToContactsPage();
+        contactsPage = loginHomepage.navigateToContactsPage();
+        waitUntilURLIs(ContactsPage.URL);
 
         Assert.assertEquals(getTextFromElement(contactsPage.textContactsHeader), "Contacts", "HEADER TEXT DOES NOT MATCH/NOT FOUND --- DID NOT NAVIGATE TO CONTACTS PAGE");
     }
 
     @Test (enabled = true)
     public void testNavigationToCompaniesPage() {
-        CompaniesPage companiesPage = loginHomepage.navigateToCompaniesPage();
+        companiesPage = loginHomepage.navigateToCompaniesPage();
+        waitUntilURLIs(CompaniesPage.URL);
 
         Assert.assertEquals(getTextFromElement(companiesPage.textCompaniesHeader), "Companies", "HEADER TEXT DOES NOT MATCH/NOT FOUND --- DID NOT NAVIGATE TO COMPANIES PAGE");
     }
 
     @Test (enabled = true)
     public void testNavigationToDealsPage() {
-        DealsPage dealsPage = loginHomepage.navigateToDealsPage();
+        dealsPage = loginHomepage.navigateToDealsPage();
+        waitUntilURLIs(DealsPage.URL);
 
         Assert.assertEquals(getTextFromElement(dealsPage.textDealsHeader), "Deals", "HEADER TEXT DOES NOT MATCH/NOT FOUND --- DID NOT NAVIGATE TO DEALS PAGE");
     }
 
     @Test (enabled = true)
     public void testNavigationToTasksPage() {
-        TasksPage tasksPage = loginHomepage.navigateToTasksPage();
+        tasksPage = loginHomepage.navigateToTasksPage();
+        waitUntilURLIs(TasksPage.URL);
 
         Assert.assertEquals(getTextFromElement(tasksPage.textTasksHeader), "Tasks", "HEADER TEXT DOES NOT MATCH/NOT FOUND --- DID NOT NAVIGATE TO TASKS PAGE");
     }
 
     @Test (enabled = true)
     public void testNavigationToCasesPage() {
-        CasesPage casesPage = loginHomepage.navigateToCasesPage();
+        casesPage = loginHomepage.navigateToCasesPage();
+        waitUntilURLIs(CasesPage.URL);
 
         Assert.assertEquals(getTextFromElement(casesPage.textCasesHeader), "Cases", "HEADER TEXT DOES NOT MATCH/NOT FOUND --- DID NOT NAVIGATE TO CASES PAGE");
     }
 
     @Test (enabled = true)
     public void testNavigationToCallsPage() {
-        CallsPage callsPage = loginHomepage.navigateToCallsPage();
+        callsPage = loginHomepage.navigateToCallsPage();
+        waitUntilURLIs(CallsPage.URL);
 
         Assert.assertEquals(getTextFromElement(callsPage.textCallsHeader), "Calls", "HEADER TEXT DOES NOT MATCH/NOT FOUND --- DID NOT NAVIGATE TO CALLS PAGE");
     }
 
     @Test (enabled = true)
     public void testNavigationToDocumentsPage() {
-        DocumentsPage documentsPage = loginHomepage.navigateToDocumentsPage();
+        documentsPage = loginHomepage.navigateToDocumentsPage();
+        waitUntilURLIs(DocumentsPage.URL);
 
         Assert.assertEquals(getTextFromElement(documentsPage.textDocumentsHeader), "Documents", "HEADER TEXT DOES NOT MATCH/NOT FOUND --- DID NOT NAVIGATE TO DOCUMENTS PAGE");
     }
 
     @Test (enabled = true)
     public void testNavigationToEmailPage() {
-        EmailPage emailPage = loginHomepage.navigateToEmailPage();
+        emailPage = loginHomepage.navigateToEmailPage();
+        waitUntilURLIs(EmailPage.URL);
 
         Assert.assertEquals(getTextFromElement(emailPage.textEmailHeader), "Inbox", "HEADER TEXT DOES NOT MATCH/NOT FOUND --- DID NOT NAVIGATE TO EMAIL PAGE");
     }
 
     @Test (enabled = true)
     public void testNavigationToCampaignsPage() {
-        CampaignsPage campaignsPage = loginHomepage.navigateToCampaignsPage();
+        campaignsPage = loginHomepage.navigateToCampaignsPage();
+        waitUntilURLIs(CampaignsPage.URL);
 
         Assert.assertEquals(getTextFromElement(campaignsPage.textCampaignsHeader), "Campaigns", "HEADER TEXT DOES NOT MATCH/NOT FOUND --- DID NOT NAVIGATE TO CAMPAIGNS PAGE");
     }
 
     @Test (enabled = true)
     public void testNavigationToFormsPage() {
-        FormsPage formsPage = loginHomepage.navigateToFormsPage();
+        formsPage = loginHomepage.navigateToFormsPage();
+        waitUntilURLIs(FormsPage.URL);
 
         Assert.assertEquals(getTextFromElement(formsPage.textFormsHeader), "Forms", "HEADER TEXT DOES NOT MATCH/NOT FOUND --- DID NOT NAVIGATE TO FORMS PAGE");
     }

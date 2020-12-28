@@ -18,7 +18,7 @@ public class AboutPageTest extends Base {
     @Override
     public void beforeEachMethodInit(@Optional ("chrome") String browser) {
         super.beforeEachMethodInit(browser);
-        aboutPage = new HomePage().clickAboutButton();
+        aboutPage = new HomePage().navigateToAboutPage();
     }
 
 }

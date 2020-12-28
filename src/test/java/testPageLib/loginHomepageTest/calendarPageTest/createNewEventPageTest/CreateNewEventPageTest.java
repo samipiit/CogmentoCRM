@@ -22,10 +22,13 @@ public class CreateNewEventPageTest extends Base {
     public void beforeEachMethodInit(@Optional("chrome") String browser) {
         super.beforeEachMethodInit(browser);
         createNewEventPage = new HomePage()
-                .clickLoginButton()
+                .navigateToLoginPage()
                 .doLogin(properties.getProperty("username"), properties.getProperty("password"))
                 .navigateToCalendarPage()
-                .clickNewEventButton();
+                .navigateToCreateNewEventPage();
+
+        waitUntilURLIs(CreateNewEventPage.URL);
+        waitUntilClickable(createNewEventPage.buttonSave);
     }
 
     @Test

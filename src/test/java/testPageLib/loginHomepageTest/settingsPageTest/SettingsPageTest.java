@@ -18,8 +18,11 @@ public class SettingsPageTest extends Base {
     public void beforeEachMethodInit(String browser) {
         super.beforeEachMethodInit(browser);
         settingsPage = new HomePage()
-                .clickLoginButton()
+                .navigateToLoginPage()
                 .doLogin(properties.getProperty("username"), properties.getProperty("password"))
-                .clickLinkSettingsSettingsDropdown();
+                .navigateToSettingsPage();
+
+        waitUntilURLIs(SettingsPage.URL);
+        waitUntilPresent(settingsPage.textHeaderAccountSettings);
     }
 }

@@ -21,8 +21,11 @@ public class CallsPageTest extends Base {
     public void beforeEachMethodInit(@Optional("chrome") String browser) {
         super.beforeEachMethodInit(browser);
         callsPage = new HomePage()
-                .clickLoginButton()
+                .navigateToLoginPage()
                 .doLogin(properties.getProperty("username"), properties.getProperty("password"))
                 .navigateToCallsPage();
+
+        waitUntilURLIs(CallsPage.URL);
+        waitUntilPresent(callsPage.textCallsHeader);
     }
 }

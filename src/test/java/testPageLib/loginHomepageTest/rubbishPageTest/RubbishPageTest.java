@@ -19,8 +19,11 @@ public class RubbishPageTest extends Base {
     public void beforeEachMethodInit(@Optional("chrome") String browser) {
         super.beforeEachMethodInit(browser);
         rubbishPage = new HomePage()
-                .clickLoginButton()
+                .navigateToLoginPage()
                 .doLogin(properties.getProperty("username"), properties.getProperty("password"))
                 .navigateToRubbishPage();
+
+        waitUntilURLIs(RubbishPage.URL);
+        waitUntilPresent(rubbishPage.textRubbishBinHeader);
     }
 }

@@ -21,8 +21,11 @@ public class DealsPageTest extends Base {
     public void beforeEachMethodInit(@Optional("chrome") String browser) {
         super.beforeEachMethodInit(browser);
         dealsPage = new HomePage()
-                .clickLoginButton()
+                .navigateToLoginPage()
                 .doLogin(properties.getProperty("username"), properties.getProperty("password"))
                 .navigateToDealsPage();
+
+        waitUntilURLIs(DealsPage.URL);
+        waitUntilPresent(dealsPage.textDealsHeader);
     }
 }

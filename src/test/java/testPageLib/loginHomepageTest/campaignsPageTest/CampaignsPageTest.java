@@ -21,8 +21,12 @@ public class CampaignsPageTest extends Base {
     public void beforeEachMethodInit(@Optional("chrome") String browser) {
         super.beforeEachMethodInit(browser);
         campaignsPage = new HomePage()
-                .clickLoginButton()
+                .navigateToLoginPage()
                 .doLogin(properties.getProperty("username"), properties.getProperty("password"))
                 .navigateToCampaignsPage();
+
+        waitUntilURLIs(CampaignsPage.URL);
+        waitUntilPresent(campaignsPage.textCampaignsHeader);
+
     }
 }

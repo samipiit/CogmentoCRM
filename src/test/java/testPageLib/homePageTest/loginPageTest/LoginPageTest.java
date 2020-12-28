@@ -13,13 +13,14 @@ public class LoginPageTest extends Base {
     public LoginPageTest() { super(); }
 
     LoginPage loginPage;
+    LoginHomepage loginHomepage;
 
     @Parameters ({"browser"})
     @BeforeMethod
     @Override
     public void beforeEachMethodInit(@Optional ("chrome") String browser) {
         super.beforeEachMethodInit(browser);
-        loginPage = new HomePage().clickLoginButton();
+        loginPage = new HomePage().navigateToLoginPage();
     }
 
     /**
@@ -48,9 +49,10 @@ public class LoginPageTest extends Base {
 
     @Test
     public void testDoValidLogin() {
-        LoginHomepage loginHomepage = loginPage.doLogin(properties.getProperty("username"), properties.getProperty("password"));
+        loginHomepage = loginPage.doLogin(properties.getProperty("username"), properties.getProperty("password"));
+        waitUntilPresent(loginHomepage.textUserNameDisplay);
 
-        Assert.assertEquals(getTextFromElement(loginHomepage.textUserNameDisplay), "Sami Sheikh", "USER NAME DOES NOT MATCH");
+        Assert.assertEquals(getTextFromElement(loginHomepage.textUserNameDisplay), properties.getProperty("profilename"), "USER NAME DOES NOT MATCH");
     }
 
 }

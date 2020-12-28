@@ -47,16 +47,6 @@ public class LoginPage extends Base {
         sendKeysToPasswordTextBox(password);
         clickLoginSubmitButton();
 
-        LoginHomepage loginHomepage = new LoginHomepage();
-
-        waitUntilClickable(loginHomepage.buttonDropdownSettings);
-
-        if (!isElementPresent(loginHomepage.textUserNameDisplay)) {
-            System.out.println("INVALID LOGIN");
-            return null;
-        }
-
-
-        return loginHomepage;
+        return new LoginHomepage();
     }
 }

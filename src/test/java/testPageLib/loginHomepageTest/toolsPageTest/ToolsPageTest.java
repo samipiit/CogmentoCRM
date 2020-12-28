@@ -18,8 +18,11 @@ public class ToolsPageTest extends Base {
     public void beforeEachMethodInit(String browser) {
         super.beforeEachMethodInit(browser);
         toolsPage = new HomePage()
-                .clickLoginButton()
+                .navigateToLoginPage()
                 .doLogin(properties.getProperty("username"), properties.getProperty("password"))
-                .clickLinkToolsSettingsDropdown();
+                .navigateToToolsPage();
+
+        waitUntilURLIs(ToolsPage.URL);
+        waitUntilPresent(toolsPage.textHeaderTools);
     }
 }

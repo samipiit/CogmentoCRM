@@ -25,13 +25,11 @@ public class CalendarPage extends Base {
         PageFactory.initElements(driver, this);
     }
 
-    public CreateNewEventPage clickNewEventButton() {
+    public CreateNewEventPage navigateToCreateNewEventPage() {
         clickOnElement(buttonNewEvent);
 
-        CreateNewEventPage createNewEventPage = new CreateNewEventPage();
-        waitUntilClickable(createNewEventPage.buttonSave);
-
-        return createNewEventPage;
+        return new CreateNewEventPage();
     }
+
 
 }

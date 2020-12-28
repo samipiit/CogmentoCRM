@@ -18,8 +18,11 @@ public class ProductsPageTest extends Base {
     public void beforeEachMethodInit(String browser) {
         super.beforeEachMethodInit(browser);
         productsPage = new HomePage()
-                .clickLoginButton()
+                .navigateToLoginPage()
                 .doLogin(properties.getProperty("username"), properties.getProperty("password"))
-                .clickLinkProductsSettingsDropdown();
+                .navigateToProductsPage();
+
+        waitUntilURLIs(ProductsPage.URL);
+        waitUntilPresent(productsPage.textHeaderProducts);
     }
 }

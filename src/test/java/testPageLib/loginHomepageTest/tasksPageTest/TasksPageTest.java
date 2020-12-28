@@ -21,8 +21,11 @@ public class TasksPageTest extends Base {
     public void beforeEachMethodInit(@Optional("chrome") String browser) {
         super.beforeEachMethodInit(browser);
         tasksPage = new HomePage()
-                .clickLoginButton()
+                .navigateToLoginPage()
                 .doLogin(properties.getProperty("username"), properties.getProperty("password"))
                 .navigateToTasksPage();
+
+        waitUntilURLIs(TasksPage.URL);
+        waitUntilPresent(tasksPage.textTasksHeader);
     }
 }

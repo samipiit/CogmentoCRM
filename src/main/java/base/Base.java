@@ -4,6 +4,7 @@ import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.LogStatus;
 import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
@@ -24,6 +25,7 @@ import org.testng.annotations.*;
 
 import java.io.*;
 import java.lang.reflect.Method;
+import java.time.Duration;
 import java.util.*;
 import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
@@ -33,6 +35,7 @@ public class Base {
     public static WebDriver driver;
     public static EventFiringWebDriver eventFiringWebDriver;
     public static WebDriverWait webDriverWait;
+    public static FluentWait fluentWait;
     public static Properties properties;
     public static DataReader dataReader;
     public static ExtentReports extent;
@@ -216,6 +219,8 @@ public class Base {
 
     public String getTextFromElement(WebElement element) {
 
+        waitUntilPresent(element);
+
         String text = "";
 
         try {
@@ -293,48 +298,54 @@ public class Base {
      */
 
     public void waitUntilURLIs(String url) {
-        webDriverWait = new WebDriverWait(driver, 10);
+        fluentWait = new FluentWait(driver)
+                .pollingEvery(Duration.ofMillis(500))
+                .withTimeout(Duration.ofSeconds(5));
 
         try {
-            webDriverWait.until(ExpectedConditions.urlToBe(url));
+            fluentWait.until(ExpectedConditions.urlToBe(url));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void waitUntilClickable(WebElement element) {
-        webDriverWait = new WebDriverWait(driver, 10);
+        fluentWait = new FluentWait(driver)
+                .pollingEvery(Duration.ofMillis(500))
+                .withTimeout(Duration.ofSeconds(5));
 
         try {
-            webDriverWait.until(ExpectedConditions.elementToBeClickable(element));
+            fluentWait.until(ExpectedConditions.elementToBeClickable(element));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void waitUntilVisible(WebElement element) {
-        webDriverWait = new WebDriverWait(driver, 10);
+        fluentWait = new FluentWait(driver)
+                .pollingEvery(Duration.ofMillis(500))
+                .withTimeout(Duration.ofSeconds(5));
 
         try {
-            webDriverWait.until(ExpectedConditions.visibilityOf(element));
+            fluentWait.until(ExpectedConditions.visibilityOf(element));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void waitUntilSelectable(WebElement element) {
-        webDriverWait = new WebDriverWait(driver, 10);
+        fluentWait = new FluentWait(driver)
+                .pollingEvery(Duration.ofMillis(500))
+                .withTimeout(Duration.ofSeconds(5));
 
         try {
-            webDriverWait.until(ExpectedConditions.elementToBeSelected(element));
+            fluentWait.until(ExpectedConditions.elementToBeClickable(element));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void waitUntilPresent(WebElement element) {
-        webDriverWait = new WebDriverWait(driver, 10);
-
         try {
             if (!isElementPresent(element)) {
                 waitUntilPresent(element);

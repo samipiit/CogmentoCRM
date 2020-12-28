@@ -18,8 +18,11 @@ public class ImportPageTest extends Base {
     public void beforeEachMethodInit(String browser) {
         super.beforeEachMethodInit(browser);
         importPage = new HomePage()
-                .clickLoginButton()
+                .navigateToLoginPage()
                 .doLogin(properties.getProperty("username"), properties.getProperty("password"))
-                .clickLinkImportSettingsDropdown();
+                .navigateToImportPage();
+
+        waitUntilURLIs(ImportPage.URL);
+        waitUntilPresent(importPage.textHeaderImport);
     }
 }

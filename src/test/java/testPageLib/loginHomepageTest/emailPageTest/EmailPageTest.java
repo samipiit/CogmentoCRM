@@ -21,8 +21,11 @@ public class EmailPageTest extends Base {
     public void beforeEachMethodInit(@Optional("chrome") String browser) {
         super.beforeEachMethodInit(browser);
         emailPage = new HomePage()
-                .clickLoginButton()
+                .navigateToLoginPage()
                 .doLogin(properties.getProperty("username"), properties.getProperty("password"))
                 .navigateToEmailPage();
+
+        waitUntilURLIs(EmailPage.URL);
+        waitUntilPresent(emailPage.textEmailHeader);
     }
 }

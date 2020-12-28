@@ -21,9 +21,12 @@ public class CompaniesPageTest extends Base {
     public void beforeEachMethodInit(@Optional("chrome") String browser) {
         super.beforeEachMethodInit(browser);
         companiesPage = new HomePage()
-                .clickLoginButton()
+                .navigateToLoginPage()
                 .doLogin(properties.getProperty("username"), properties.getProperty("password"))
                 .navigateToCompaniesPage();
+
+        waitUntilURLIs(CompaniesPage.URL);
+        waitUntilPresent(companiesPage.textCompaniesHeader);
     }
 
 }

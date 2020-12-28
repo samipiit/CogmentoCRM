@@ -53,18 +53,15 @@ public class HomePage extends Base {
         PageFactory.initElements(driver, this);
     }
 
-    public LoginPage clickLoginButton() {
+    public LoginPage navigateToLoginPage() {
         buttonLogin.click();
-
-        waitUntilURLIs(LoginPage.URL);
 
         return new LoginPage();
     }
 
-    public AboutPage clickAboutButton() {
+    public AboutPage navigateToAboutPage() {
         buttonAbout.click();
 
-        waitUntilURLIs(AboutPage.URL);
         return new AboutPage();
     }
 
