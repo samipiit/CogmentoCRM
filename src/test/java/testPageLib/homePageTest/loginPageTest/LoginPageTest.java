@@ -41,7 +41,7 @@ public class LoginPageTest extends Base {
     public Object[][] getInvalidLoginTestData() throws Exception {
         dataReader = new DataReader();
 
-        String path = System.getProperty("user.dir") + "/src/main/java/testData/TestData1.xlsx";
+        String path = System.getProperty("user.dir") + properties.getProperty("testdatapath");
 
         return dataReader.fileReaderArrayStringArraysXSSF(path, "InvalidLogin");
     }

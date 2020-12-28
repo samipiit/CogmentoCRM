@@ -159,7 +159,6 @@ public class CreateNewEventPage extends Base {
         clickDropdownButtonCategory();
         selectDropdownItemByNameCategoryDropdown(categoryListItemName);
 
-
     }
 
 
