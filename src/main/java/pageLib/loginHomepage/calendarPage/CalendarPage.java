@@ -26,6 +26,7 @@ public class CalendarPage extends Base {
     }
 
     public CreateNewEventPage navigateToCreateNewEventPage() {
+        waitUntilClickable(buttonNewEvent);
         clickOnElement(buttonNewEvent);
 
         return new CreateNewEventPage();

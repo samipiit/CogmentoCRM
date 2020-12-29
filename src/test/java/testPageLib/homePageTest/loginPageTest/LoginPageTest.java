@@ -6,7 +6,7 @@ import org.testng.annotations.*;
 import pageLib.homePage.HomePage;
 import pageLib.loginHomepage.LoginHomepage;
 import pageLib.homePage.loginPage.LoginPage;
-import testUtils.DataReader;
+import base.utils.DataReader;
 
 public class LoginPageTest extends Base {
 

@@ -11,7 +11,7 @@ import org.testng.ITestResult;
 import org.testng.annotations.Optional;
 import reporting.ExtentManager;
 import reporting.ExtentTestManager;
-import testUtils.DataReader;
+import base.utils.DataReader;
 import testUtils.WebEventListener;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.*;
@@ -27,7 +27,6 @@ import java.io.*;
 import java.lang.reflect.Method;
 import java.time.Duration;
 import java.util.*;
-import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 
 public class Base {
@@ -137,6 +136,7 @@ public class Base {
             ExtentTestManager.getTest().log(LogStatus.FAIL, "TEST CASE FAILED: " + result.getName());
             ExtentTestManager.getTest().log(LogStatus.FAIL, result.getThrowable());
             captureScreenshot(driver, result.getName());
+
         } else if (result.getStatus() == ITestResult.SKIP) {
             ExtentTestManager.getTest().log(LogStatus.SKIP, "TEST CASE SKIPPED: " + result.getName());
         } else if (result.getStatus() == ITestResult.SUCCESS) {
