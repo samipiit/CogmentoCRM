@@ -1,4 +1,4 @@
-package testUtils;
+package base.utils;
 
 import base.Base;
 import org.openqa.selenium.By;
