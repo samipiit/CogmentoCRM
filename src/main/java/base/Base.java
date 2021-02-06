@@ -2,6 +2,7 @@ package base;
 
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.LogStatus;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
@@ -35,27 +36,25 @@ public class Base {
     public static EventFiringWebDriver eventFiringWebDriver;
     public static WebDriverWait webDriverWait;
     public static FluentWait fluentWait;
+    public static Actions webDriverAction;
     public static Properties properties;
     public static DataReader dataReader;
     public static ExtentReports extent;
 
     public Base() {
 
-
         try {
             properties = new Properties();
             FileInputStream fis = new FileInputStream("src/main/resources/config/config.properties");
             properties.load(fis);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         try {
             dataReader = new DataReader();
         } catch (Exception e) {
-            e.getMessage();
+            e.printStackTrace();
         }
     }
 
@@ -104,11 +103,11 @@ public class Base {
         ExtentTestManager.startTest(methodName);
         ExtentTestManager.getTest().assignCategory(className);
 
-        System.out.println("\n***" + methodName + "***\n");
+        System.out.println("\n\t***" + methodName + "***\n");
     }
 
 
-    @Parameters ({"browser"})
+    @Parameters({"browser"})
     @BeforeMethod
     public void beforeEachMethodInit(@Optional("chrome") String browser) {
         initDriver(browser);
@@ -122,7 +121,7 @@ public class Base {
         driver.get(url);
     }
 
-    @AfterMethod (alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void afterEachTestMethod(ITestResult result) {
 
         ExtentTestManager.getTest().getTest().setStartedTime(getTime(result.getStartMillis()));
@@ -161,9 +160,8 @@ public class Base {
 
     /**
      * Method to capture screenshot & store in .png file in specified directory
-     * @param driver
-     * @param testName
      */
+
     private static void captureScreenshot(WebDriver driver, String testName) {
         String fileName = testName + ".png";
         File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
@@ -183,16 +181,64 @@ public class Base {
      * UTILITY METHODS
      */
 
-    public void clickOnElement(WebElement element) {
+    public String getCurrentURL(){
+        return driver.getCurrentUrl();
+    }
+
+    public void closeCurrentTab() {
+        driver.close();
+    }
+
+    public void switchToParentTab() {
+        driver.switchTo().defaultContent();
+    }
+
+    public void switchToTab(int tabIndexToSwitchTo) {
+
+        List<String> tabs = new ArrayList<String> (driver.getWindowHandles());
+
         try {
-            waitUntilClickable(element);
+            driver.switchTo().window(tabs.get(tabIndexToSwitchTo));
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    public void switchToiFrameElement(WebElement element) {
+        try {
+            driver.switchTo().frame(element);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void switchToiFrameIndex(int frameIndex) {
+        try {
+            driver.switchTo().frame(frameIndex);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void switchToiFrameNameOrID(String iFrameNameOrID) {
+        try {
+            driver.switchTo().frame(iFrameNameOrID);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void clickOnElement(WebElement element) {
         try {
             element.click();
         } catch (Exception e) {
+            try {
+                webDriverAction = new Actions(driver)
+                        .moveToElement(element)
+                        .click(element);
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
             e.printStackTrace();
         }
     }
@@ -201,7 +247,13 @@ public class Base {
         try {
             element.sendKeys(keysToInput);
         } catch (Exception e) {
-            e.getMessage();
+            try {
+                webDriverAction = new Actions(driver)
+                        .sendKeys(element, keysToInput);
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+            e.printStackTrace();
         }
     }
 
@@ -209,7 +261,7 @@ public class Base {
         try {
             element.clear();
         } catch (Exception e) {
-            e.getMessage();
+            e.printStackTrace();
         }
     }
 
@@ -217,23 +269,23 @@ public class Base {
         return element.getCssValue("color");
     }
 
+    public String getCSSValueBackgroundColor(WebElement element) {
+        return element.getCssValue("background-color");
+    }
+
     public String getTextFromElement(WebElement element) {
-
-        waitUntilPresent(element);
-
         String text = "";
 
         try {
-            text = element.getText();
+            text = element.getText().trim();
         } catch (Exception e) {
             try {
-                e.printStackTrace();
-                text = element.getAttribute("innerHTML");
-            } catch (Exception e1){
+                text = element.getAttribute("innerHTML").trim();
+            } catch (Exception e1) {
                 e1.printStackTrace();
             }
+            e.printStackTrace();
         }
-
         return text;
     }
 
@@ -242,7 +294,7 @@ public class Base {
 
         try {
             text = element.getAttribute(attribute);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -250,7 +302,6 @@ public class Base {
     }
 
     public List<String> getListOfStringsTextFromElement(By locator) {
-
         List<WebElement> webElementsList = driver.findElements(locator);
         List<String> webElementsTextList = new ArrayList<>();
 
@@ -259,11 +310,6 @@ public class Base {
         }
 
         return webElementsTextList;
-    }
-
-    public int getNumberOfLinks(By by) {
-        List<WebElement> webElementsList = driver.findElements(by);
-        return webElementsList.size();
     }
 
     public List<WebElement> getListOfElements(By by) {
@@ -282,15 +328,12 @@ public class Base {
         List<WebElement> list = new ArrayList<>();
 
         try {
-             list = driver.findElements(by);
+            list = driver.findElements(by);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return list.size();
     }
-
-
-
 
 
     /**
@@ -346,9 +389,10 @@ public class Base {
     }
 
     public void waitUntilPresent(WebElement element) {
+
         try {
             if (!isElementPresent(element)) {
-                waitUntilPresent(element);
+                waitUntilVisible(element);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -381,7 +425,7 @@ public class Base {
 
         String[] actual = new String[webElementList.size()];
 
-        for (int j = 0; j<webElementList.size(); j++) {
+        for (int j = 0; j < webElementList.size(); j++) {
             actual[j] = webElementList.get(j)
                     .getAttribute(attribute)
                     .replaceAll("&amp;", "&")
@@ -400,7 +444,7 @@ public class Base {
                 System.out.println("ACTUAL " + attribute.toUpperCase() + " " + (i + 1) + ": " + actual[i]);
                 System.out.println("EXPECTED " + attribute.toUpperCase() + " " + (i + 1) + ": " + expectedList[i] + "\n");
             } else {
-                System.out.println("FAILED AT INDEX " + (i+1) + "\nEXPECTED " + attribute.toUpperCase() + ": " + expectedList[i] +
+                System.out.println("FAILED AT INDEX " + (i + 1) + "\nEXPECTED " + attribute.toUpperCase() + ": " + expectedList[i] +
                         "\nACTUAL " + attribute.toUpperCase() + ": " + actual[i] + "\n");
                 falseCount++;
             }
@@ -410,7 +454,6 @@ public class Base {
         }
         return flag;
     }
-
 
 
 }

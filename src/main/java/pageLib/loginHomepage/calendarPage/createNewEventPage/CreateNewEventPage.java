@@ -6,8 +6,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import static pageLib.loginHomepage.calendarPage.createNewEventPage.CreateNewEventPageLocators.*;
 
@@ -98,11 +101,30 @@ public class CreateNewEventPage extends Base {
         int listSize = webElementsList.size();
 
         if (index > listSize) {
-            System.out.println("***SELECTED INDEX OUT OF BOUNDS FOR LIST SIZE " + listSize + "***");
+            System.out.println("***SELECTED INDEX OUT OF BOUNDS FOR LIST SIZE OF " + listSize + "***");
         } else {
             waitUntilClickable(webElementsList.get(index));
             clickOnElement(webElementsList.get(index));
         }
+    }
+
+
+
+
+
+
+
+
+    // NEED FORMAT STRING --> DATE METHOD
+
+    public void enterTextInputTextBoxStartDate(String dateAndTime) {
+        waitUntilPresent(inputTextBoxStartDate);
+        sendKeysInputTextBox(inputTextBoxStartDate, dateAndTime);
+    }
+
+    public void enterTextInputTextBoxEndDate(String dateAndTime) {
+        waitUntilPresent(inputTextBoxEndDate);
+        sendKeysInputTextBox(inputTextBoxEndDate, dateAndTime);
     }
 
     public void clickDropdownButtonCategory() {
@@ -140,13 +162,12 @@ public class CreateNewEventPage extends Base {
 
     }
 
-    public void enterTextInputTextBoxStartDate(String date) {
-        sendKeysInputTextBox(inputTextBoxStartDate, date);
-    }
 
-    public void enterTextInputTextBoxEndDate(String date) {
-        sendKeysInputTextBox(inputTextBoxEndDate, date);
-    }
+
+
+
+
+
 
 
     public void createNewCalendarEvent(String eventTitle, String calendarDropdownListItemName, String startDate,

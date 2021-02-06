@@ -48,7 +48,7 @@ public class CreateNewEventPageTest extends Base {
     public void testCountDropdownListItemsCalendarDropdown() {
         createNewEventPage.clickDropdownButtonCalendar();
 
-        Assert.assertEquals(createNewEventPage.getCountDropdownItemsCalendarDropdown(), 1, "NUMBER OF LIST ITEMS DO NOT MATCH");
+        Assert.assertEquals(createNewEventPage.getCountDropdownItemsCalendarDropdown(), 2, "NUMBER OF LIST ITEMS DO NOT MATCH");
     }
 
     @Test

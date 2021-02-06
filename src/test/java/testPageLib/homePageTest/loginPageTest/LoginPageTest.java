@@ -21,6 +21,7 @@ public class LoginPageTest extends Base {
     public void beforeEachMethodInit(@Optional ("chrome") String browser) {
         super.beforeEachMethodInit(browser);
         loginPage = new HomePage().navigateToLoginPage();
+        waitUntilURLIs(LoginPage.URL);
     }
 
     /**
@@ -41,9 +42,7 @@ public class LoginPageTest extends Base {
     @DataProvider
     public Object[][] getInvalidLoginTestData() throws Exception {
         dataReader = new DataReader();
-
         String path = System.getProperty("user.dir") + properties.getProperty("testdatapath");
-
         return dataReader.fileReaderArrayStringArraysXSSF(path, "InvalidLogin");
     }
 

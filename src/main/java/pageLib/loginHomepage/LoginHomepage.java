@@ -116,6 +116,10 @@ public class LoginHomepage extends Base {
         PageFactory.initElements(driver, this);
     }
 
+    /**
+     * HEADER
+     */
+
     public void clickOnExpandSettingsDropdown() {
         clickOnElement(buttonDropdownSettings);
     }
@@ -169,8 +173,12 @@ public class LoginHomepage extends Base {
 
 
 
+    /**
+     * LEFT SIDE BAR
+     */
+
     public int getNumOfLinksLeftSideBar() {
-        return getNumberOfLinks(By.cssSelector(webElementsLinksLeftSideBar));
+        return getSizeListOfElements(By.cssSelector(webElementsLinksLeftSideBar));
     }
 
     public List<String> getLinksLeftSideBar() {
