@@ -4,8 +4,8 @@ import base.Base;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
-import pageLib.homePage.HomePage;
-import pageLib.homePage.comparePage.ComparePage;
+import CogmentoCRM.homePage.HomePage;
+import CogmentoCRM.homePage.comparePage.ComparePage;
 
 public class ComparePageTest extends Base {
 

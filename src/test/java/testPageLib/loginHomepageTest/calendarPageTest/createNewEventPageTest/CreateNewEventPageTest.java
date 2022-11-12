@@ -3,8 +3,8 @@ package testPageLib.loginHomepageTest.calendarPageTest.createNewEventPageTest;
 import base.Base;
 import org.testng.Assert;
 import org.testng.annotations.*;
-import pageLib.homePage.HomePage;
-import pageLib.loginHomepage.calendarPage.createNewEventPage.CreateNewEventPage;
+import CogmentoCRM.homePage.HomePage;
+import CogmentoCRM.loginHomepage.calendarPage.createNewEventPage.CreateNewEventPage;
 
 import java.io.IOException;
 

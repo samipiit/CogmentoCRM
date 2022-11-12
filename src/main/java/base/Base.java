@@ -165,8 +165,9 @@ public class Base {
     private static void captureScreenshot(WebDriver driver, String testName) {
         String fileName = testName + ".png";
         File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        File newScreenshotFile = new File(System.getProperty("user.dir") + File.separator + "src" + File.separator +
-                "main" + File.separator + "java" + File.separator + "reporting" + File.separator + "screenshots" + File.separator + fileName);
+        File newScreenshotFile = new File(System.getProperty("user.dir") + File.separator + "src" +
+                File.separator + "test" + File.separator + "resources" + File.separator + "fail_screenshots" +
+                File.separator + fileName);
 
         try {
             FileHandler.copy(screenshot, newScreenshotFile);

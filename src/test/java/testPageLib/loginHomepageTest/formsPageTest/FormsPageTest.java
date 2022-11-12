@@ -4,8 +4,8 @@ import base.Base;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
-import pageLib.loginHomepage.formsPage.FormsPage;
-import pageLib.homePage.HomePage;
+import CogmentoCRM.loginHomepage.formsPage.FormsPage;
+import CogmentoCRM.homePage.HomePage;
 
 public class FormsPageTest extends Base {
 

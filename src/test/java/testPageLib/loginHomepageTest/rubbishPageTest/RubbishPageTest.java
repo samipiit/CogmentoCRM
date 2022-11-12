@@ -3,8 +3,8 @@ package testPageLib.loginHomepageTest.rubbishPageTest;
 import base.Base;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Optional;
-import pageLib.homePage.HomePage;
-import pageLib.loginHomepage.rubbishPage.RubbishPage;
+import CogmentoCRM.homePage.HomePage;
+import CogmentoCRM.loginHomepage.rubbishPage.RubbishPage;
 
 public class RubbishPageTest extends Base {
 

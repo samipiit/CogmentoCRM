@@ -6,16 +6,14 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import pageLib.homePage.HomePage;
-import pageLib.homePage.aboutPage.AboutPage;
-import pageLib.homePage.comparePage.ComparePage;
-import pageLib.homePage.loginPage.LoginPage;
-import pageLib.homePage.pricingPage.PricingPage;
-import pageLib.homePage.registerPage.RegisterPage;
-import pageLib.homePage.supportPage.SupportPage;
-import pageLib.loginHomepage.settingsPage.SettingsPage;
-
-import java.awt.*;
+import CogmentoCRM.homePage.HomePage;
+import CogmentoCRM.homePage.aboutPage.AboutPage;
+import CogmentoCRM.homePage.comparePage.ComparePage;
+import CogmentoCRM.homePage.loginPage.LoginPage;
+import CogmentoCRM.homePage.pricingPage.PricingPage;
+import CogmentoCRM.homePage.registerPage.RegisterPage;
+import CogmentoCRM.homePage.supportPage.SupportPage;
+import CogmentoCRM.loginHomepage.settingsPage.SettingsPage;
 
 public class HomePageTest extends Base {
 

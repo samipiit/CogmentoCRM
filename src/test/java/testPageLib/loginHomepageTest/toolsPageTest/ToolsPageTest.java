@@ -2,8 +2,8 @@ package testPageLib.loginHomepageTest.toolsPageTest;
 
 import base.Base;
 import org.testng.annotations.BeforeMethod;
-import pageLib.homePage.HomePage;
-import pageLib.loginHomepage.toolsPage.ToolsPage;
+import CogmentoCRM.homePage.HomePage;
+import CogmentoCRM.loginHomepage.toolsPage.ToolsPage;
 
 public class ToolsPageTest extends Base {
 

@@ -6,10 +6,9 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import pageLib.homePage.loginPage.LoginPage;
-import pageLib.loginHomepage.calendarPage.CalendarPage;
-import pageLib.homePage.HomePage;
-import pageLib.loginHomepage.calendarPage.createNewEventPage.CreateNewEventPage;
+import CogmentoCRM.loginHomepage.calendarPage.CalendarPage;
+import CogmentoCRM.homePage.HomePage;
+import CogmentoCRM.loginHomepage.calendarPage.createNewEventPage.CreateNewEventPage;
 
 public class CalendarPageTest extends Base {
 

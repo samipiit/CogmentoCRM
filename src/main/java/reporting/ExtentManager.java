@@ -20,7 +20,9 @@ public class ExtentManager {
             Date date = new Date();
             String fileName = "TestReport_"+date.toString().replace(" ", "_").replace(":", "-")+".html";
 
-            extent = new ExtentReports(System.getProperty("user.dir")+"/src/main/java/reporting/testReports/" + fileName,true);
+            extent = new ExtentReports(System.getProperty("user.dir") + File.separator + "src" + File.separator +
+                    "test" + File.separator + "resources" + File.separator + "testReports" +
+                    File.separator + fileName,true);
             Reporter.log("Extent Report Directory" + resultDirectory, true);
             extent.addSystemInfo("Host Name", "Maximus").addSystemInfo("Environment","QA")
                     .addSystemInfo("User Name", "Sami Sheikh");

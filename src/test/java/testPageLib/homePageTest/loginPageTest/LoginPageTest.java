@@ -3,9 +3,9 @@ package testPageLib.homePageTest.loginPageTest;
 import base.Base;
 import org.testng.Assert;
 import org.testng.annotations.*;
-import pageLib.homePage.HomePage;
-import pageLib.loginHomepage.LoginHomepage;
-import pageLib.homePage.loginPage.LoginPage;
+import CogmentoCRM.homePage.HomePage;
+import CogmentoCRM.loginHomepage.LoginHomepage;
+import CogmentoCRM.homePage.loginPage.LoginPage;
 import base.utils.DataReader;
 
 public class LoginPageTest extends Base {
