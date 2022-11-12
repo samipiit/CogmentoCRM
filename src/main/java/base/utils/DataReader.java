@@ -38,7 +38,7 @@ public class DataReader {
 
         xssfWorkbook = new XSSFWorkbook(fis);
         xssfSheet = xssfWorkbook.getSheet(sheetName);
-        numberOfRows = xssfSheet.getLastRowNum()-1;
+        numberOfRows = xssfSheet.getLastRowNum();
         numberOfCol = xssfSheet.getRow(0).getLastCellNum();
         data = new String[numberOfRows][numberOfCol];
 
@@ -46,7 +46,7 @@ public class DataReader {
             xssfRows = xssfSheet.getRow(i);
             for (int j = 0; j < numberOfCol; j++) {
                 xssfCell = xssfRows.getCell(j);
-                String cellData = getCellValueXSSF(xssfCell);
+                String cellData = getCellValue(xssfCell);
                 data[i-1][j] = cellData;
             }
         }
@@ -68,7 +68,7 @@ public class DataReader {
         for (int i = 1; i <= numberOfRows; i++) {
             xssfRows = xssfSheet.getRow(i);
             xssfCell = xssfRows.getCell(0);
-            String cellData = getCellValueXSSF(xssfCell);
+            String cellData = getCellValue(xssfCell);
             data[i-1] = cellData;
         }
         return data;
@@ -161,8 +161,8 @@ public class DataReader {
 
 
     // HELPER METHODS TO GET VALUES FROM INDIVIDUAL CELLS - CALLED WITHIN READER METHODS
-    public String getCellValueXSSF(XSSFCell cell) {
-        Object value = null;
+    public String getCellValue(XSSFCell cell) {
+        Object value;
 
         CellType dataType = cell.getCellType();
         switch (dataType) {
@@ -175,7 +175,10 @@ public class DataReader {
             case BOOLEAN:
                 value = cell.getBooleanCellValue();
                 break;
+            default:
+                value = cell.getRawValue();
         }
+
         return value.toString();
     }
 

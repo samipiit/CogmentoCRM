@@ -4,7 +4,6 @@ import base.Base;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageLib.loginHomepage.LoginHomepage;
 
 import static pageLib.homePage.loginPage.LoginPageLocators.*;
@@ -19,7 +18,7 @@ public class LoginPage extends Base {
     @FindBy (css = webElementTextBoxPassword)
     public WebElement inputPassword;
 
-    @FindBy (css = webELementButtonSubmit)
+    @FindBy (css = webElementButtonSubmit)
     public WebElement buttonLoginSubmit;
 
     @FindBy (css = webElementInvalidLoginMessage)
@@ -28,7 +27,6 @@ public class LoginPage extends Base {
     public LoginPage() {
         PageFactory.initElements(driver, this);
     }
-
 
     public void sendKeysToEmailAddressTextBox(String emailAddress) {
         sendKeysInputTextBox(inputEmailAddress, emailAddress);

@@ -16,8 +16,6 @@ import static pageLib.homePage.HomePageLocators.*;
 
 public class HomePage extends Base {
 
-    public static final String URL = properties.getProperty("url");
-
     @FindBy (css = webElementButtonAbout)
     public WebElement buttonAbout;
 

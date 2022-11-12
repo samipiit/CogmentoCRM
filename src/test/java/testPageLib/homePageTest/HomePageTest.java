@@ -13,6 +13,7 @@ import pageLib.homePage.loginPage.LoginPage;
 import pageLib.homePage.pricingPage.PricingPage;
 import pageLib.homePage.registerPage.RegisterPage;
 import pageLib.homePage.supportPage.SupportPage;
+import pageLib.loginHomepage.settingsPage.SettingsPage;
 
 import java.awt.*;
 
@@ -27,6 +28,7 @@ public class HomePageTest extends Base {
     SupportPage supportPage;
     RegisterPage registerPage;
     LoginPage loginPage;
+    SettingsPage settingsPage;
 
     @Parameters ({"browser"})
     @BeforeMethod
@@ -40,7 +42,7 @@ public class HomePageTest extends Base {
     public void testNumberOfHeaderLinks() {
         int actualNumOfLinks = homePage.getNumOfHeaderLinks();
 
-        Assert.assertEquals(actualNumOfLinks, 20);
+        Assert.assertEquals(actualNumOfLinks, 21);
     }
 
     @Test (enabled = true)

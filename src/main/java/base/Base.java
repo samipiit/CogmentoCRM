@@ -2,6 +2,7 @@ package base;
 
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.LogStatus;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -161,7 +162,6 @@ public class Base {
     /**
      * Method to capture screenshot & store in .png file in specified directory
      */
-
     private static void captureScreenshot(WebDriver driver, String testName) {
         String fileName = testName + ".png";
         File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
@@ -180,7 +180,6 @@ public class Base {
     /**
      * UTILITY METHODS
      */
-
     public String getCurrentURL(){
         return driver.getCurrentUrl();
     }
@@ -225,6 +224,22 @@ public class Base {
             driver.switchTo().frame(iFrameNameOrID);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void mouseHover(WebElement element) {
+        try {
+            Actions hover = new Actions(driver);
+            hover.moveToElement(element).perform();
+        } catch (Exception ex) {
+            driver.navigate().refresh();
+            System.out.println("1st mouse-hover attempt failed - Attempting 2nd time");
+
+            WebDriverWait wait = new WebDriverWait(driver, 10);
+            Actions hover = new Actions(driver);
+
+            wait.until(ExpectedConditions.visibilityOf(element));
+            hover.moveToElement(element).perform();
         }
     }
 
@@ -337,6 +352,64 @@ public class Base {
 
 
     /**
+     * Javascript Helper Methods
+     */
+
+    public static void clickJScript(WebElement element) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        try {
+            js.executeScript("arguments[0].click();", element);
+        } catch (NoSuchElementException e) {
+            System.out.println("NO SUCH ELEMENT - " + element);
+            e.printStackTrace();
+        } catch (StaleElementReferenceException e) {
+            System.out.println("STALE ELEMENT - " + element);
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("COULD NOT CLICK ON ELEMENT - " + element);
+            e.printStackTrace();
+        }
+    }
+
+    public void scrollToElementJScript(WebElement element) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        try {
+            js.executeScript("arguments[0].scrollIntoView();", element);
+        } catch (NoSuchElementException e) {
+            System.out.println("NO SUCH ELEMENT - " + element);
+            e.printStackTrace();
+        } catch (StaleElementReferenceException e) {
+            System.out.println("STALE ELEMENT - " + element);
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("COULD NOT SCROLL TO ELEMENT - " + element);
+            e.printStackTrace();
+        }
+    }
+
+    public static void mouseHoverJScript(WebElement element) {
+        try {
+            if (isElementPresent(element)) {
+                String mouseOverScript = "if(document.createEvent){var evObj = document.createEvent('MouseEvents');evObj.initEvent('mouseover', true, false); arguments[0].dispatchEvent(evObj);} else if(document.createEventObject) { arguments[0].fireEvent('onmouseover');}";
+                ((JavascriptExecutor) driver).executeScript(mouseOverScript, element);
+                System.out.println("Hover performed\n");
+            } else {
+                System.out.println("UNABLE TO HOVER OVER ELEMENT\n");
+            }
+        } catch (StaleElementReferenceException e) {
+            System.out.println("ELEMENT WITH " + element
+                    + " IS NOT ATTACHED TO THE PAGE DOCUMENT");
+            e.printStackTrace();
+        } catch (NoSuchElementException e) {
+            System.out.println("ELEMENT " + element + " WAS NOT FOUND IN DOM");
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("ERROR OCCURED WHILE HOVERING\n");
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * SYNCHRONIZATION METHODS
      */
 
@@ -399,7 +472,7 @@ public class Base {
         }
     }
 
-    public boolean isElementPresent(WebElement element) {
+    public static boolean isElementPresent(WebElement element) {
         boolean flag = false;
 
         try {
@@ -429,9 +502,6 @@ public class Base {
             actual[j] = webElementList.get(j)
                     .getAttribute(attribute)
                     .replaceAll("&amp;", "&")
-                    .replaceAll("’", "'")
-                    .replaceAll("<br>", "\n").trim();
-            actual[j].replaceAll("&amp;", "&")
                     .replaceAll("’", "'")
                     .replaceAll("<br>", "\n").trim();
         }
