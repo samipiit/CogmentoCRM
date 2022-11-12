@@ -1,10 +1,10 @@
 # Created by .ignore support plugin (hsz.mobi)
 ### Java template
 
-target
-.idea
-testReports
-fail_screenshots
+/target
+/.idea
+/testReports
+/fail_screenshots
 
 # Compiled class file
 *.class
